@@ -12,7 +12,7 @@ class CNN4(nn.Module):
             stride=(1, 1),
             padding=(1, 1),
         )
-        self.pool = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
+        self.pool1 = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
         self.conv2 = nn.Conv2d(
             in_channels=32,
             out_channels=64,
@@ -20,7 +20,7 @@ class CNN4(nn.Module):
             stride=(1, 1),
             padding=(1, 1),
         )
-        self.pool = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
+        self.pool2 = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
         self.conv3 = nn.Conv2d(
             in_channels=64,
             out_channels=128,
@@ -28,7 +28,7 @@ class CNN4(nn.Module):
             stride=(1, 1),
             padding=(1, 1),
         )
-        self.pool = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
+        self.pool3 = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
         self.conv4 = nn.Conv2d(
             in_channels=128,
             out_channels=256,
@@ -36,17 +36,18 @@ class CNN4(nn.Module):
             stride=(1, 1),
             padding=(1, 1),
         )
+        self.pool4 = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
         self.fc1 = nn.Linear(256 * 16 * 16, num_classes)
 
     def forward(self, x):
         x = F.relu(self.conv1(x))
-        x = self.pool(x)
+        x = self.pool1(x)
         x = F.relu(self.conv2(x))
-        x = self.pool(x)
+        x = self.pool2(x)
         x = F.relu(self.conv3(x))
-        x = self.pool(x)
+        x = self.pool3(x)
         x = F.relu(self.conv4(x))
-        x = self.pool(x)
+        x = self.pool4(x)
         x = x.reshape(x.shape[0], -1)
         x = self.fc1(x)
         return x
@@ -62,7 +63,7 @@ class CNN5(nn.Module):
             stride=(1, 1),
             padding=(1, 1),
         )
-        self.pool = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
+        self.pool1 = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
         self.conv2 = nn.Conv2d(
             in_channels=32,
             out_channels=64,
@@ -70,7 +71,7 @@ class CNN5(nn.Module):
             stride=(1, 1),
             padding=(1, 1),
         )
-        self.pool = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
+        self.pool2 = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
         self.conv3 = nn.Conv2d(
             in_channels=64,
             out_channels=128,
@@ -78,7 +79,7 @@ class CNN5(nn.Module):
             stride=(1, 1),
             padding=(1, 1),
         )
-        self.pool = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
+        self.pool3 = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
         self.conv4 = nn.Conv2d(
             in_channels=128,
             out_channels=256,
@@ -86,7 +87,7 @@ class CNN5(nn.Module):
             stride=(1, 1),
             padding=(1, 1),
         )
-        self.pool = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
+        self.pool4 = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
         self.conv5 = nn.Conv2d(
             in_channels=256,
             out_channels=512,
@@ -94,19 +95,20 @@ class CNN5(nn.Module):
             stride=(1, 1),
             padding=(1, 1),
         )
+        self.pool5 = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
         self.fc1 = nn.Linear(512 * 8 * 8, num_classes)
 
     def forward(self, x):
         x = F.relu(self.conv1(x))
-        x = self.pool(x)
+        x = self.pool1(x)
         x = F.relu(self.conv2(x))
-        x = self.pool(x)
+        x = self.pool2(x)
         x = F.relu(self.conv3(x))
-        x = self.pool(x)
+        x = self.pool3(x)
         x = F.relu(self.conv4(x))
-        x = self.pool(x)
+        x = self.pool4(x)
         x = F.relu(self.conv5(x))
-        x = self.pool(x)
+        x = self.pool5(x)
         x = x.reshape(x.shape[0], -1)
         x = self.fc1(x)
         return x
