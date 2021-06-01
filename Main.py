@@ -30,7 +30,7 @@ from torchvision.datasets import ImageFolder
 from torchvision.transforms import ToTensor, Compose, Resize
 import argparse
 from models.ResNet import ResNet18, ResNet50, ResNet101, ResNet152
-from models.CNN import CNN
+from models.CNN import CNN4, CNN5
 from models.VGG import VGG11, VGG13, VGG16, VGG19
 from Utilities.Save import save_checkpoint, load_checkpoint
 from pandas import DataFrame
@@ -55,9 +55,10 @@ def arguments():
     parser.add_argument("--height", type=int, default=256)
     parser.add_argument("--width", type=int, default=256)
     parser.add_argument("--load-model", default=False)
-    parser.add_argument("--architecture", default="cnn", help="cnn=CNN, vgg11=VGG11, vgg13=VGG13, vgg16=VGG16,"
-                                                                  "vgg19=VGG19, resnet18=ResNet18, resnet50=ResNet50,"
-                                                              "resnet101=ResNet101, resnet152=ResNet=152")
+    parser.add_argument("--architecture", default="cnn4", help="cnn4=CNN4, cnn5=CNN5, vgg11=VGG11, vgg13=VGG13, "
+                                                               "vgg16=VGG16, vgg19=VGG19, resnet18=ResNet18, "
+                                                               "resnet50=ResNet50, resnet101=ResNet101, "
+                                                               "resnet152=ResNet=152")
 
     return parser.parse_args()
 
@@ -121,8 +122,10 @@ def main():
     prediction_loader = DataLoader(test, batch_size=args.batch_size)
 
     # Initialize network
-    if args.architecture == 'cnn':
-        model = CNN(in_channels=args.in_channels, num_classes=num_classes).to(device)
+    if args.architecture == 'cnn4':
+        model = CNN4(in_channels=args.in_channels, num_classes=num_classes).to(device)
+    elif args.architecture == 'cnn5':
+        model = CNN5(in_channels=args.in_channels, num_classes=num_classes).to(device)
     elif args.architecture == 'vgg11':
         model = VGG11(in_channels=args.in_channels, num_classes=num_classes).to(device)
     elif args.architecture == 'vgg13':
