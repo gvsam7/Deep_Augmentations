@@ -185,35 +185,35 @@ def main():
         train_steps = len(train_loader) * (epoch + 1)
         wandb.log({"Train Accuracy": train_avg_acc, "Validation Accuracy": val_avg_acc}, step=train_steps)
 
-        train_preds = get_all_preds(model, loader=prediction_loader, device=device)
-        print(f"Train predictions shape: {train_preds.shape}")
-        print(f"The label the network predicts strongly: {train_preds.argmax(dim=1)}")
-        predictions = train_preds.argmax(dim=1)
+    train_preds = get_all_preds(model, loader=prediction_loader, device=device)
+    print(f"Train predictions shape: {train_preds.shape}")
+    print(f"The label the network predicts strongly: {train_preds.argmax(dim=1)}")
+    predictions = train_preds.argmax(dim=1)
 
-        # Confusion Matrix
-        wandb.sklearn.plot_confusion_matrix(y_test, train_preds.argmax(dim=1), labels)
-        # Class proportions
-        wandb.sklearn.plot_class_proportions(y_train, y_test, labels)
-        precision, recall, f1_score, support = score(y_test, train_preds.argmax(dim=1))
-        test_acc = accuracy_score(y_test, train_preds.argmax(dim=1))
+    # Confusion Matrix
+    wandb.sklearn.plot_confusion_matrix(y_test, train_preds.argmax(dim=1), labels)
+    # Class proportions
+    wandb.sklearn.plot_class_proportions(y_train, y_test, labels)
+    precision, recall, f1_score, support = score(y_test, train_preds.argmax(dim=1))
+    test_acc = accuracy_score(y_test, train_preds.argmax(dim=1))
 
-        print(f"Test Accuracy: {test_acc}")
-        print(f"precision: {precision}")
-        print(f"recall: {recall}")
-        print(f"f1_score: {f1_score}")
-        print(f"support: {support}")
+    print(f"Test Accuracy: {test_acc}")
+    print(f"precision: {precision}")
+    print(f"recall: {recall}")
+    print(f"f1_score: {f1_score}")
+    print(f"support: {support}")
 
-        # Test data saved in Excel document
-        df = DataFrame({'Test Accuracy': test_acc, 'precision': precision, 'recall': recall, 'f1_score': f1_score,
-                        'support': support})
-        df.to_excel('test.xlsx', sheet_name='sheet1', index=False)
-        df.to_csv('test.csv', index=False)
-        compression_opts = dict(method='zip', archive_name='out.csv')
-        df.to_csv('out.zip', index=False, compression=compression_opts)
+    # Test data saved in Excel document
+    df = DataFrame({'Test Accuracy': test_acc, 'precision': precision, 'recall': recall, 'f1_score': f1_score,
+                    'support': support})
+    df.to_excel('test.xlsx', sheet_name='sheet1', index=False)
+    df.to_csv('test.csv', index=False)
+    compression_opts = dict(method='zip', archive_name='out.csv')
+    df.to_csv('out.zip', index=False, compression=compression_opts)
 
-        wandb.save('test.csv')
-        wandb.save('my_checkpoint.pth.tar')
-        wandb.save('Predictions.csv')
+    wandb.save('test.csv')
+    wandb.save('my_checkpoint.pth.tar')
+    wandb.save('Predictions.csv')
 
 
 if __name__ == "__main__":
