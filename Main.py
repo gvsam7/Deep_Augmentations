@@ -14,33 +14,29 @@ Description: Test platform to validate the impact on model robustness of various
             Data augmentation techniques tested: Cutout, mixup, CutMix and AugMix
 """
 
-
 # Imports
 import torch
-import torchvision  # torch package for vision related things
-import torch.nn.functional as F  # Parameterless functions, like (some) activation functions
-import torchvision.datasets as datasets  # Standard datasets
-import torchvision.transforms as transforms  # Transformations we can perform on our dataset for augmentation
-from torch import optim  # For optimizers like SGD, Adam, etc.
-from torch import nn  # All neural network modules
-from torch.utils.data import DataLoader  # Gives easier dataset managment by creating mini batches etc.
+from torch import optim
+from torch import nn
+from torch.utils.data import DataLoader
+from torch.utils.data.dataset import Subset
 from tqdm import tqdm  # For nice progress bar!
 from sklearn.model_selection import train_test_split
 from torchvision.datasets import ImageFolder
-from torchvision.transforms import ToTensor, Compose, Resize
 import argparse
 from models.ResNet import ResNet18, ResNet50, ResNet101, ResNet152
 from models.CNN import CNN4, CNN5
 from models.VGG import VGG11, VGG13, VGG16, VGG19
 from Utilities.Save import save_checkpoint, load_checkpoint
+from Utilities.Data import DataRetrieve
+from Utilities.config import train_transforms, val_transforms, test_transforms
 from pandas import DataFrame
+import numpy as np
 from sklearn.metrics import precision_recall_fscore_support as score
 from sklearn.metrics import accuracy_score
 import wandb
-wandb.init(project="Augmentations")
 
-# Set device
-# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+wandb.init(project="Augmentations")
 
 
 # Hyperparameters
@@ -64,7 +60,6 @@ def arguments():
 
 
 def step(data, targets, model, optimizer, criterion, train):
-
     with torch.set_grad_enabled(train):
         outputs = model(data)
         acc = outputs.argmax(dim=1).eq(targets).sum().item()
@@ -100,28 +95,48 @@ def main():
         device = torch.device("cpu")
         print("Running on the CPU")
 
-    # transforms = transform_data
-    transforms = Compose([Resize((args.height, args.width)), ToTensor()])
     # Load Data
-    dataset = ImageFolder("Training_Data_2018_2014", transform=transforms)
+    dataset = ImageFolder("Training_Data_2018_2014")
     labels = dataset.classes
     num_classes = len(labels)
-    print(f"num_class: {num_classes}")
-    input_size = dataset[0][0].shape
-    X1, y1 = dataset, dataset.targets
-    X_trainval, X_test, y_trainval, y_test = train_test_split(X1, y1, test_size=0.2, stratify=y1,
+    y = dataset.targets
+    dataset_len = len(dataset)
+    X_trainval, X_test, y_trainval, y_test = train_test_split(np.arange(dataset_len), y, test_size=0.2, stratify=y,
                                                               random_state=args.random_state, shuffle=True)
-    test = X_test
     X2 = X_trainval
     y2 = y_trainval
     X_train, X_val, y_train, y_val = train_test_split(X2, y2, test_size=0.2, stratify=y2,
                                                       random_state=args.random_state, shuffle=True)
-    train, val = X_train, X_val
-    train_loader = DataLoader(train, batch_size=args.batch_size, shuffle=True)
-    val_loader = DataLoader(val, batch_size=args.batch_size, shuffle=False)
-    prediction_loader = DataLoader(test, batch_size=args.batch_size)
+    train_ds = Subset(dataset, X_train)
+    val_ds = Subset(dataset, X_val)
+    test_ds = Subset(dataset, X_test)
+    filepaths = np.array(tuple(zip(*dataset.imgs))[0])
+    train_filepaths = filepaths[X_train]
+    val_filepaths = filepaths[X_val]
+    test_filepaths = filepaths[X_test]
 
-    # Initialize network
+    # Create train, validation and test datasets
+    train_dataset = DataRetrieve(
+        train_ds,
+        transforms=train_transforms(args.width, args.height)
+    )
+
+    val_dataset = DataRetrieve(
+        val_ds,
+        transforms=val_transforms(args.width, args.height)
+    )
+
+    test_dataset = DataRetrieve(
+        test_ds,
+        transforms=test_transforms(args.width, args.height)
+    )
+
+    # Create train, validation and test dataloaders
+    train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True)
+    val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False)
+    prediction_loader = DataLoader(test_dataset, batch_size=args.batch_size)
+
+    # Networks
     if args.architecture == 'cnn4':
         model = CNN4(in_channels=args.in_channels, num_classes=num_classes).to(device)
     elif args.architecture == 'cnn5':
@@ -149,6 +164,7 @@ def main():
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=args.lr)
 
+    # Load model
     if args.load_model:
         load_checkpoint(torch.load("my_checkpoint.pth.tar"), model, optimizer)
 
@@ -157,7 +173,7 @@ def main():
         model.train()
         sum_acc = 0
         for data, targets in train_loader:
-        # for batch_idx, (data, targets) in enumerate(tqdm(train_loader)):
+            # for batch_idx, (data, targets) in enumerate(tqdm(train_loader)):
             # Get data to cuda if possible
             data = data.to(device=device)
             targets = targets.to(device=device)
@@ -165,6 +181,7 @@ def main():
             sum_acc += acc
         train_avg_acc = sum_acc / len(train_loader)
 
+        # Saving model
         if epoch % 10 == 0:
             checkpoint = {
                 "state_dict": model.state_dict(),
@@ -175,7 +192,7 @@ def main():
         model.eval()
         sum_acc = 0
         for data, targets in val_loader:
-        # for batch_idx, (data, targets) in enumerate(tqdm(val_loader)):
+            # for batch_idx, (data, targets) in enumerate(tqdm(val_loader)):
             # Get data to cuda if possible
             data = data.to(device=device)
             targets = targets.to(device=device)
@@ -183,7 +200,8 @@ def main():
             sum_acc += val_acc
         val_avg_acc = sum_acc / len(val_loader)
 
-        print(f"Epoch: {epoch + 1} \tTraining accuracy: {train_avg_acc:.2f} \n\t\tValidation accuracy: {val_avg_acc:.2f}")
+        print(
+            f"Epoch: {epoch + 1} \tTraining accuracy: {train_avg_acc:.2f} \n\t\tValidation accuracy: {val_avg_acc:.2f}")
 
         train_steps = len(train_loader) * (epoch + 1)
         wandb.log({"Train Accuracy": train_avg_acc, "Validation Accuracy": val_avg_acc}, step=train_steps)
