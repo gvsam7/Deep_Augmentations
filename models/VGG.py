@@ -7,6 +7,7 @@ VGG_arch = {
     'VGG19': [64, 64, 'M', 128, 128, 'M', 256, 256, 256, 256, 'M', 512, 512, 512, 512, 'M', 512, 512, 512, 512, 'M'],
 }
 
+# 256/32=8
 
 class VGG(nn.Module):
     def __init__(self, VGG_arch, in_channels=3, num_classes=10):
@@ -15,7 +16,8 @@ class VGG(nn.Module):
         self.conv = self.conv_layers(VGG_arch)
 
         self.fcs = nn.Sequential(
-            nn.Linear(512 * 8 * 8, 4096),
+            nn.Linear(512 * 4 * 4, 4096),
+            # nn.Linear(512 * height/32 * width/32, 4096),
             nn.ReLU(),
             nn.Dropout(p=0.5),
             nn.Linear(4096, 4096),
