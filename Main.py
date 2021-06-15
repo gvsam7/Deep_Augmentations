@@ -50,8 +50,9 @@ def arguments():
     parser.add_argument("--random-state", type=int, default=21)
     parser.add_argument("--height", type=int, default=256)
     parser.add_argument("--width", type=int, default=256)
+    parser.add_argument("--save-model", default=False)
     parser.add_argument("--load-model", default=False)
-    parser.add_argument("--architecture", default="vgg11", help="cnn4=CNN4, cnn5=CNN5, vgg11=VGG11, vgg13=VGG13, "
+    parser.add_argument("--architecture", default="cnn4", help="cnn4=CNN4, cnn5=CNN5, vgg11=VGG11, vgg13=VGG13, "
                                                                "vgg16=VGG16, vgg19=VGG19, resnet18=ResNet18, "
                                                                "resnet50=ResNet50, resnet101=ResNet101, "
                                                                "resnet152=ResNet=152")
@@ -182,12 +183,13 @@ def main():
         train_avg_acc = sum_acc / len(train_loader)
 
         # Saving model
-        if epoch % 10 == 0:
-            checkpoint = {
-                "state_dict": model.state_dict(),
-                "optimizer": optimizer.state_dict(),
-            }
-            save_checkpoint(checkpoint)
+        if args.save_model:
+            if epoch % 10 == 0:
+                checkpoint = {
+                    "state_dict": model.state_dict(),
+                    "optimizer": optimizer.state_dict(),
+                }
+                save_checkpoint(checkpoint)
 
         model.eval()
         sum_acc = 0
