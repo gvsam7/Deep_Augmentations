@@ -16,7 +16,7 @@ class VGG(nn.Module):
         self.conv = self.conv_layers(VGG_arch)
 
         self.fcs = nn.Sequential(
-            nn.Linear(512 * 4 * 4, 4096),
+            nn.Linear(512 * 8 * 8, 4096),
             # nn.Linear(512 * height/32 * width/32, 4096),
             nn.ReLU(),
             nn.Dropout(p=0.5),
