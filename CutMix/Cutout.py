@@ -18,13 +18,3 @@ def mask(img, size=96, n_squares=1):
 
 
 
-"""print("Original images: ")
-for i in range(4):
-    plt.subplot(330 + 1 + i)
-    plt.imshow(train_ds[i])
-plt.show()
-print("Image with cutout: ")
-for i in range(4):
-    plt.subplot(330 + 1 + i)
-    plt.imshow(mask(x_train[i]))
-plt.show()"""
