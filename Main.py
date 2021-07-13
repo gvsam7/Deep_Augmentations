@@ -30,6 +30,8 @@ from models.VGG import VGG11, VGG13, VGG16, VGG19
 from Utilities.Save import save_checkpoint, load_checkpoint
 from Utilities.Data import DataRetrieve
 from Utilities.config import train_transforms, val_transforms, test_transforms
+from CutMix.Cutout import mask
+import matplotlib.pyplot as plt
 from pandas import DataFrame
 import numpy as np
 from sklearn.metrics import precision_recall_fscore_support as score
@@ -52,6 +54,7 @@ def arguments():
     parser.add_argument("--width", type=int, default=256)
     parser.add_argument("--save-model", default=False)
     parser.add_argument("--load-model", default=False)
+    parser.add_argument("--augmentation", default=None, help="cutout, cutmix")
     parser.add_argument("--architecture", default="cnn4", help="cnn4=CNN4, cnn5=CNN5, vgg11=VGG11, vgg13=VGG13, "
                                                                "vgg16=VGG16, vgg19=VGG19, resnet18=ResNet18, "
                                                                "resnet50=ResNet50, resnet101=ResNet101, "
@@ -119,7 +122,8 @@ def main():
     # Create train, validation and test datasets
     train_dataset = DataRetrieve(
         train_ds,
-        transforms=train_transforms(args.width, args.height)
+        transforms=train_transforms(args.width, args.height),
+        augmentations=args.augmentation
     )
 
     val_dataset = DataRetrieve(
@@ -178,8 +182,38 @@ def main():
             # Get data to cuda if possible
             data = data.to(device=device)
             targets = targets.to(device=device)
-            acc, loss = step(data, targets, model=model, optimizer=optimizer, criterion=criterion, train=True)
-            sum_acc += acc
+
+            if args.augmentation == "cutmix":
+                None
+            else:
+                acc, loss = step(data, targets, model=model, optimizer=optimizer, criterion=criterion, train=True)
+                sum_acc += acc
+
+            """# Visualise Cutout
+            # Denormalise images so they will not be dark
+            mean = torch.tensor([0.5, 0.5, 0.5])
+            std = torch.tensor([0.5, 0.5, 0.5])
+
+            data = data * std[:, None, None] + mean[:, None, None]
+            
+            print(f"Data_shape: {data.shape}")
+            print("Original images: ")
+            fig = plt.figure(figsize=(10, 10))
+            for i in range(9):
+                plt.subplot(330 + 1 + i)
+                plt.suptitle("CutMix Images", fontsize=14)
+                plt.title(labels[targets[i]], fontsize=10)
+                plt.imshow(data[i].permute(1, 2, 0))
+            plt.show()
+            print("Images with Cutout: ")
+            fig = plt.figure(figsize=(10, 10))
+            for i in range(9):
+                plt.subplot(330 + 1 + i)
+                plt.suptitle("Image with cutout", fontsize=14)
+                plt.title(labels[targets[i]], fontsize=10)
+                plt.imshow(mask(data[i].permute(1, 2, 0)))
+            plt.show()"""
+
         train_avg_acc = sum_acc / len(train_loader)
 
         # Saving model
