@@ -190,6 +190,7 @@ def main():
                 acc, loss = step(data, targets, model=model, optimizer=optimizer, criterion=criterion, train=True)
                 sum_acc += acc
 
+            """
             # Visualise Cutout
             # Denormalise images so they will not be dark
             mean = torch.tensor([0.5, 0.5, 0.5])
@@ -206,6 +207,7 @@ def main():
                 # plt.title(labels[targets[i]], fontsize=10)
                 plt.imshow(data[i].permute(1, 2, 0))
             plt.show()
+            """
             """
             print("Images with Cutout: ")
             fig = plt.figure(figsize=(10, 10))
