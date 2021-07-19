@@ -45,7 +45,7 @@ wandb.init(project="Augmentations")
 def arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("--device", type=int, default=0)
-    parser.add_argument("--epochs", type=int, default=2)
+    parser.add_argument("--epochs", type=int, default=102)
     parser.add_argument("--in-channels", type=int, default=3)
     parser.add_argument("--lr", type=float, default=1e-3)
     parser.add_argument("--batch-size", type=int, default=64)
@@ -54,7 +54,7 @@ def arguments():
     parser.add_argument("--width", type=int, default=256)
     parser.add_argument("--save-model", default=False)
     parser.add_argument("--load-model", default=False)
-    parser.add_argument("--augmentation", default=None, help="cutout, cutmix")
+    parser.add_argument("--augmentation", default='cutmix', help="cutout, cutmix")
     parser.add_argument("--architecture", default="cnn4", help="cnn4=CNN4, cnn5=CNN5, vgg11=VGG11, vgg13=VGG13, "
                                                                "vgg16=VGG16, vgg19=VGG19, resnet18=ResNet18, "
                                                                "resnet50=ResNet50, resnet101=ResNet101, "
@@ -105,6 +105,7 @@ def main():
     num_classes = len(labels)
     y = dataset.targets
     dataset_len = len(dataset)
+
     X_trainval, X_test, y_trainval, y_test = train_test_split(np.arange(dataset_len), y, test_size=0.2, stratify=y,
                                                               random_state=args.random_state, shuffle=True)
     X2 = X_trainval
@@ -189,7 +190,7 @@ def main():
                 acc, loss = step(data, targets, model=model, optimizer=optimizer, criterion=criterion, train=True)
                 sum_acc += acc
 
-            """# Visualise Cutout
+            # Visualise Cutout
             # Denormalise images so they will not be dark
             mean = torch.tensor([0.5, 0.5, 0.5])
             std = torch.tensor([0.5, 0.5, 0.5])
@@ -202,9 +203,10 @@ def main():
             for i in range(9):
                 plt.subplot(330 + 1 + i)
                 plt.suptitle("CutMix Images", fontsize=14)
-                plt.title(labels[targets[i]], fontsize=10)
+                # plt.title(labels[targets[i]], fontsize=10)
                 plt.imshow(data[i].permute(1, 2, 0))
             plt.show()
+            """
             print("Images with Cutout: ")
             fig = plt.figure(figsize=(10, 10))
             for i in range(9):

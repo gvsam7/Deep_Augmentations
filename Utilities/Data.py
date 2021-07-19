@@ -7,7 +7,7 @@ from CutMix.utils import onehot, rand_bbox
 
 class DataRetrieve(Dataset):
     def __init__(self, ds: Dataset, transforms: Optional[A.Compose] = None, augmentations=None, num_class=9, num_mix=1,
-                 beta=1., prob=1.0):
+                 beta=0.25, prob=0.5):
         super().__init__()
         self.ds = ds
         self.transforms = transforms
