@@ -36,7 +36,9 @@ class CNN4(nn.Module):
             stride=(1, 1),
             padding=(1, 1),
         )
-        self.pool4 = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
+        # self.pool4 = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
+        self.pool4 = nn.AvgPool2d(kernel_size=(2, 2), stride=(2, 2))
+        # self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
         self.fc1 = nn.Linear(256 * 16 * 16, num_classes)
 
     def forward(self, x):
@@ -48,6 +50,8 @@ class CNN4(nn.Module):
         x = self.pool3(x)
         x = F.relu(self.conv4(x))
         x = self.pool4(x)
+
+        # x = self.avgpool(x)
         x = x.reshape(x.shape[0], -1)
         x = self.fc1(x)
         return x
@@ -95,7 +99,9 @@ class CNN5(nn.Module):
             stride=(1, 1),
             padding=(1, 1),
         )
-        self.pool5 = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
+        self.pool5 = nn.AvgPool2d(kernel_size=(2, 2), stride=(2, 2))
+        # self.pool5 = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
+        # self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
         self.fc1 = nn.Linear(512 * 8 * 8, num_classes)
 
     def forward(self, x):
@@ -109,6 +115,8 @@ class CNN5(nn.Module):
         x = self.pool4(x)
         x = F.relu(self.conv5(x))
         x = self.pool5(x)
+
+        # x = self.avgpool(x)
         x = x.reshape(x.shape[0], -1)
         x = self.fc1(x)
         return x

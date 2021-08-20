@@ -48,13 +48,13 @@ def arguments():
     parser.add_argument("--epochs", type=int, default=102)
     parser.add_argument("--in-channels", type=int, default=3)
     parser.add_argument("--lr", type=float, default=1e-3)
-    parser.add_argument("--batch-size", type=int, default=64)
+    parser.add_argument("--batch-size", type=int, default=100)
     parser.add_argument("--random-state", type=int, default=21)
     parser.add_argument("--height", type=int, default=256)
     parser.add_argument("--width", type=int, default=256)
-    parser.add_argument("--save-model", default=False)
+    parser.add_argument("--save-model", default=True)
     parser.add_argument("--load-model", default=False)
-    parser.add_argument("--augmentation", default='cutmix', help="cutout, cutmix")
+    parser.add_argument("--augmentation", default="cutout", help="cutout, cutmix")
     parser.add_argument("--architecture", default="cnn4", help="cnn4=CNN4, cnn5=CNN5, vgg11=VGG11, vgg13=VGG13, "
                                                                "vgg16=VGG16, vgg19=VGG19, resnet18=ResNet18, "
                                                                "resnet50=ResNet50, resnet101=ResNet101, "

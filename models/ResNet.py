@@ -64,9 +64,9 @@ def ResNet50(in_channels=3, num_classes=10):
     return ResNet(block, [3, 4, 6, 3], in_channels, num_classes)
 
 
-def ResNet101(in_channels=3, num_classes=1000):
+def ResNet101(in_channels=3, num_classes=10):
     return ResNet(block, [3, 4, 23, 3], in_channels, num_classes)
 
 
-def ResNet152(in_channels=3, num_classes=1000):
+def ResNet152(in_channels=3, num_classes=10):
     return ResNet(block, [3, 8, 36, 3], in_channels, num_classes)
