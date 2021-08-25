@@ -55,7 +55,7 @@ def arguments():
     parser.add_argument("--save-model", default=False)
     parser.add_argument("--load-model", default=False)
     parser.add_argument("--augmentation", default="cutout", help="cutout, cutmix")
-    parser.add_argument("--architecture", default="cnn5", help="cnn4=CNN4, cnn5=CNN5, vgg11=VGG11, vgg13=VGG13, "
+    parser.add_argument("--architecture", default="cnn4", help="cnn4=CNN4, cnn5=CNN5, vgg11=VGG11, vgg13=VGG13, "
                                                                "vgg16=VGG16, vgg19=VGG19, resnet18=ResNet18, "
                                                                "resnet50=ResNet50, resnet101=ResNet101, "
                                                                "resnet152=ResNet=152")
@@ -229,6 +229,7 @@ def main():
                 }
                 save_checkpoint(checkpoint)
 
+        # Evaluate Network
         model.eval()
         sum_acc = 0
         for data, targets in val_loader:
@@ -236,7 +237,7 @@ def main():
             # Get data to cuda if possible
             data = data.to(device=device)
             targets = targets.to(device=device)
-            val_acc, val_loss = step(data, targets, model=model, optimizer=optimizer, criterion=criterion, train=True)
+            val_acc, val_loss = step(data, targets, model=model, optimizer=optimizer, criterion=criterion, train=False)
             sum_acc += val_acc
         val_avg_acc = sum_acc / len(val_loader)
 
