@@ -38,9 +38,6 @@ from sklearn.metrics import precision_recall_fscore_support as score
 from sklearn.metrics import accuracy_score
 import wandb
 
-wandb.init(project="Augmentations")
-
-
 # Hyperparameters
 def arguments():
     parser = argparse.ArgumentParser()
@@ -90,6 +87,7 @@ def get_all_preds(model, loader, device):
 
 def main():
     args = arguments()
+    wandb.init(project="Augmentations", config=args)
 
     # Set device
     if torch.cuda.is_available():
