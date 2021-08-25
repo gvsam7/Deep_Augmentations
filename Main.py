@@ -52,10 +52,10 @@ def arguments():
     parser.add_argument("--random-state", type=int, default=21)
     parser.add_argument("--height", type=int, default=256)
     parser.add_argument("--width", type=int, default=256)
-    parser.add_argument("--save-model", default=True)
+    parser.add_argument("--save-model", default=False)
     parser.add_argument("--load-model", default=False)
     parser.add_argument("--augmentation", default="cutout", help="cutout, cutmix")
-    parser.add_argument("--architecture", default="cnn4", help="cnn4=CNN4, cnn5=CNN5, vgg11=VGG11, vgg13=VGG13, "
+    parser.add_argument("--architecture", default="cnn5", help="cnn4=CNN4, cnn5=CNN5, vgg11=VGG11, vgg13=VGG13, "
                                                                "vgg16=VGG16, vgg19=VGG19, resnet18=ResNet18, "
                                                                "resnet50=ResNet50, resnet101=ResNet101, "
                                                                "resnet152=ResNet=152")
@@ -171,7 +171,7 @@ def main():
     optimizer = optim.Adam(model.parameters(), lr=args.lr)
 
     # Load model
-    if args.load_model:
+    if args.load_model is True:
         load_checkpoint(torch.load("my_checkpoint.pth.tar"), model, optimizer)
 
     # Train Network
@@ -221,7 +221,7 @@ def main():
         train_avg_acc = sum_acc / len(train_loader)
 
         # Saving model
-        if args.save_model:
+        if args.save_model is True:
             if epoch % 10 == 0:
                 checkpoint = {
                     "state_dict": model.state_dict(),

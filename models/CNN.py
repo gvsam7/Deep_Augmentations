@@ -79,6 +79,8 @@ class CNN5(nn.Module):
             padding=(1, 1),
         )
         self.pool1 = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
+        # Batch Normalisation
+        self.bn1 = nn.BatchNorm2d(32)
         self.conv2 = nn.Conv2d(
             in_channels=32,
             out_channels=64,
@@ -87,6 +89,8 @@ class CNN5(nn.Module):
             padding=(1, 1),
         )
         self.pool2 = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
+        # Batch Normalisation
+        self.bn2 = nn.BatchNorm2d(64)
         self.conv3 = nn.Conv2d(
             in_channels=64,
             out_channels=128,
@@ -95,6 +99,8 @@ class CNN5(nn.Module):
             padding=(1, 1),
         )
         self.pool3 = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
+        # Batch Normalisation
+        self.bn3 = nn.BatchNorm2d(128)
         self.conv4 = nn.Conv2d(
             in_channels=128,
             out_channels=256,
@@ -103,6 +109,8 @@ class CNN5(nn.Module):
             padding=(1, 1),
         )
         self.pool4 = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
+        # Batch Normalisation
+        self.bn4 = nn.BatchNorm2d(256)
         self.conv5 = nn.Conv2d(
             in_channels=256,
             out_channels=512,
@@ -119,12 +127,16 @@ class CNN5(nn.Module):
     def forward(self, x):
         x = F.relu(self.conv1(x))
         x = self.pool1(x)
+        x = self.bn1(x)
         x = F.relu(self.conv2(x))
         x = self.pool2(x)
+        x = self.bn2(x)
         x = F.relu(self.conv3(x))
         x = self.pool3(x)
+        x = self.bn3(x)
         x = F.relu(self.conv4(x))
         x = self.pool4(x)
+        x = self.bn4(x)
         x = F.relu(self.conv5(x))
         # x = self.pool5(x)
 
