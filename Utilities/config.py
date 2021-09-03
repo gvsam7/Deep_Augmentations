@@ -7,10 +7,10 @@ def train_transforms(width, height):
         [
             A.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5], max_pixel_value=255.0),
             A.Resize(width, height, p=1.),
-            A.Rotate(limit=45, p=0.9),
-            A.HorizontalFlip(p=0.5),
-            A.VerticalFlip(p=0.1),
-            # A.Cutout(num_holes=1, max_h_size=96, max_w_size=96, fill_value=0, p=0.5),
+            # A.Rotate(limit=45, p=0.9),
+            # A.HorizontalFlip(p=0.5),
+            # A.VerticalFlip(p=0.1),
+            A.Cutout(num_holes=1, max_h_size=12, max_w_size=12, fill_value=0, p=0.5),
             ToTensorV2(),
         ]
     )
