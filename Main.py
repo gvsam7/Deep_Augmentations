@@ -181,9 +181,13 @@ def main():
         for param in model.parameters():
             param.requires_grad = args.requires_grad
         print(f"requires_grad={args.requires_grad}")
-        model.classifier = nn.Sequential(nn.Linear(9216, 100),
+        model.classifier = nn.Sequential(nn.Dropout(),
+                                         nn.Linear(9216, 4096),
                                          nn.ReLU(),
-                                         nn.Linear(100, 10))
+                                         nn.Dropout(),
+                                         nn.Linear(4096, 4096),
+                                         nn.ReLU(),
+                                         nn.Linear(4096, 10))
         model.to(device)
     elif args.architecture == 'resnet18':
         model = ResNet18(in_channels=args.in_channels, num_classes=num_classes).to(device)
