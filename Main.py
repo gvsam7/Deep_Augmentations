@@ -18,6 +18,7 @@ Description: Test platform to validate the impact on model robustness of various
 import torch
 from torch import optim
 from torch import nn
+import torchvision
 from torch.utils.data import DataLoader
 from torch.utils.data.dataset import Subset
 from tqdm import tqdm  # For nice progress bar!
@@ -30,6 +31,7 @@ from models.VGG import VGG11, VGG13, VGG16, VGG19
 from Utilities.Save import save_checkpoint, load_checkpoint
 from Utilities.Data import DataRetrieve
 from Utilities.config import train_transforms, val_transforms, test_transforms
+from Utilities.Identity import Identity
 from CutMix.Cutout import mask
 import matplotlib.pyplot as plt
 from pandas import DataFrame
@@ -37,6 +39,7 @@ import numpy as np
 from sklearn.metrics import precision_recall_fscore_support as score
 from sklearn.metrics import accuracy_score
 import wandb
+import sys
 
 # Hyperparameters
 def arguments():
@@ -52,10 +55,14 @@ def arguments():
     parser.add_argument("--save-model", default=False)
     parser.add_argument("--load-model", default=False)
     parser.add_argument("--augmentation", default="cutout", help="cutout, cutmix")
-    parser.add_argument("--architecture", default="cnn4", help="cnn4=CNN4, cnn5=CNN5, vgg11=VGG11, vgg13=VGG13, "
-                                                               "vgg16=VGG16, vgg19=VGG19, resnet18=ResNet18, "
-                                                               "resnet50=ResNet50, resnet101=ResNet101, "
-                                                               "resnet152=ResNet=152")
+    parser.add_argument("--pretrained", default=True)
+    parser.add_argument("--requires_grad", default=False, help="freeze the parameters so that the gradients are not "
+                                                               "computed in backward()")
+    parser.add_argument("--architecture", default="cnn4", help="cnn4=CNN4, cnn5=CNN5, vgg11=VGG11, vgg13=VGG13,"
+                                                                    "vgg16=VGG16, tlvgg16=pretrain VGG16, vgg19=VGG19,"
+                                                                    "resnet18=ResNet18, tlresnet18= pretrain ResNet18,"
+                                                                    "resnet50=ResNet50, resnet101=ResNet101,"
+                                                                    "resnet152=ResNet=152, tlalexnet= pretrain AlexNet")
 
     return parser.parse_args()
 
@@ -151,10 +158,43 @@ def main():
         model = VGG13(in_channels=args.in_channels, num_classes=num_classes).to(device)
     elif args.architecture == 'vgg16':
         model = VGG16(in_channels=args.in_channels, num_classes=num_classes).to(device)
+    elif args.architecture == 'tlvgg16':
+        # Load pretrain model and modify it
+        model = torchvision.models.vgg16(pretrained=args.pretrained)
+        print(f"Pretrained is set: {args.pretrained}")
+        # Do not change the layers upto that point
+        # Freeze the parameters so that the gradients are not computed in backward()
+        for param in model.parameters():
+            param.requires_grad = args.requires_grad
+        print(f"requires_grad={args.requires_grad}")
+        model.avgpool = Identity()
+        # This will only train the last layers
+        model.classifier = nn.Sequential(nn.Linear(32768, 100),
+                                         nn.ReLU(),
+                                         nn.Linear(100, 10))
+        model.to(device)
     elif args.architecture == 'vgg19':
         model = VGG19(in_channels=args.in_channels, num_classes=num_classes).to(device)
+    elif args.architecture == 'tlalexnet':
+        model = torchvision.models.alexnet(pretrained=args.pretrained)
+        print(f"Pretrained={args.pretrained}")
+        for param in model.parameters():
+            param.requires_grad = args.requires_grad
+        print(f"requires_grad={args.requires_grad}")
+        model.classifier = nn.Sequential(nn.Linear(9216, 100),
+                                         nn.ReLU(),
+                                         nn.Linear(100, 10))
+        model.to(device)
     elif args.architecture == 'resnet18':
         model = ResNet18(in_channels=args.in_channels, num_classes=num_classes).to(device)
+    elif args.architecture == 'tlresnet18':
+        model = torchvision.models.resnet18(pretrained=args.pretrained)
+        print(f"Pretrained={args.pretrained}")
+        for param in model.parameters():
+            param.requires_grad = args.requires_grad
+        print(f"requires_grad={args.requires_grad}")
+        model.classifier = nn.Linear(512*4, 10)
+        model.to(device)
     elif args.architecture == 'resnet50':
         model = ResNet50(in_channels=args.in_channels, num_classes=num_classes).to(device)
     elif args.architecture == 'resnet101':
@@ -170,7 +210,10 @@ def main():
 
     # Load model
     if args.load_model is True:
-        load_checkpoint(torch.load("my_checkpoint.pth.tar"), model, optimizer)
+        if device == torch.device("cpu"):
+            load_checkpoint(torch.load("my_checkpoint.pth.tar", map_location=torch.device('cpu')), model, optimizer)
+        else:
+            load_checkpoint(torch.load("my_checkpoint.pth.tar"), model, optimizer)
 
     # Train Network
     for epoch in range(args.epochs):
@@ -256,6 +299,8 @@ def main():
     wandb.sklearn.plot_class_proportions(y_train, y_test, labels)
     precision, recall, f1_score, support = score(y_test, train_preds.argmax(dim=1))
     test_acc = accuracy_score(y_test, train_preds.argmax(dim=1))
+    wandb.log({"Test Accuracy": test_acc}, step=train_steps)
+    wandb.log({"Precision": precision}, {"Recall": recall}, {"F1_Score": f1_score}, {"Support": support})
 
     print(f"Test Accuracy: {test_acc}")
     print(f"precision: {precision}")
