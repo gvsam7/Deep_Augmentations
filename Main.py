@@ -55,8 +55,9 @@ def arguments():
     parser.add_argument("--save-model", default=False)
     parser.add_argument("--load-model", default=False)
     parser.add_argument("--augmentation", default="cutout", help="cutout, cutmix")
+    parser.add_argument("--Augmentation", default="cutout", help="none, position, cutout")
     parser.add_argument("--pretrained", default=True)
-    parser.add_argument("--requires_grad", default=False, help="freeze the parameters so that the gradients are not "
+    parser.add_argument("--requires-grad", default=False, help="freeze the parameters so that the gradients are not "
                                                                "computed in backward()")
     parser.add_argument("--architecture", default="cnn4", help="cnn4=CNN4, cnn5=CNN5, vgg11=VGG11, vgg13=VGG13,"
                                                                     "vgg16=VGG16, tlvgg16=pretrain VGG16, vgg19=VGG19,"
@@ -128,7 +129,7 @@ def main():
     # Create train, validation and test datasets
     train_dataset = DataRetrieve(
         train_ds,
-        transforms=train_transforms(args.width, args.height),
+        transforms=train_transforms(args.width, args.height, args.Augmentation),
         augmentations=args.augmentation
     )
 
@@ -304,7 +305,6 @@ def main():
     precision, recall, f1_score, support = score(y_test, train_preds.argmax(dim=1))
     test_acc = accuracy_score(y_test, train_preds.argmax(dim=1))
     wandb.log({"Test Accuracy": test_acc}, step=train_steps)
-    wandb.log({"Precision": precision}, {"Recall": recall}, {"F1_Score": f1_score}, {"Support": support})
 
     print(f"Test Accuracy: {test_acc}")
     print(f"precision: {precision}")
