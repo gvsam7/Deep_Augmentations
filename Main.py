@@ -91,7 +91,7 @@ def get_all_preds(model, loader, device):
 
 def main():
     args = arguments()
-    # wandb.init(project="Augmentations", config=args)
+    wandb.init(project="Augmentations", config=args)
 
     # Set device
     if torch.cuda.is_available():
