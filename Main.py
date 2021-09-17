@@ -25,13 +25,10 @@ from tqdm import tqdm  # For nice progress bar!
 from sklearn.model_selection import train_test_split
 from torchvision.datasets import ImageFolder
 import argparse
-from models.ResNet import ResNet18, ResNet50, ResNet101, ResNet152
-from models.CNN import CNN4, CNN5
-from models.VGG import VGG11, VGG13, VGG16, VGG19
 from Utilities.Save import save_checkpoint, load_checkpoint
 from Utilities.Data import DataRetrieve
 from Utilities.config import train_transforms, val_transforms, test_transforms
-from Utilities.Identity import Identity
+from Utilities.Networks import networks
 from CutMix.Cutout import mask
 import matplotlib.pyplot as plt
 from pandas import DataFrame
@@ -57,8 +54,7 @@ def arguments():
     parser.add_argument("--augmentation", default="cutout", help="cutout, cutmix")
     parser.add_argument("--Augmentation", default="none", help="none, position, cutout")
     parser.add_argument("--pretrained", default=True)
-    parser.add_argument("--requires-grad", default=False, help="freeze the parameters so that the gradients are not "
-                                                               "computed in backward()")
+    parser.add_argument("--requires-grad", default=False)
     parser.add_argument("--architecture", default="cnn4", help="cnn4=CNN4, cnn5=CNN5, vgg11=VGG11, vgg13=VGG13,"
                                                                     "vgg16=VGG16, tlvgg16=pretrain VGG16, vgg19=VGG19,"
                                                                     "resnet18=ResNet18, tlresnet18= pretrain ResNet18,"
@@ -95,7 +91,7 @@ def get_all_preds(model, loader, device):
 
 def main():
     args = arguments()
-    wandb.init(project="Augmentations", config=args)
+    # wandb.init(project="Augmentations", config=args)
 
     # Set device
     if torch.cuda.is_available():
@@ -148,65 +144,9 @@ def main():
     val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False)
     prediction_loader = DataLoader(test_dataset, batch_size=args.batch_size)
 
-    # Networks
-    if args.architecture == 'cnn4':
-        model = CNN4(in_channels=args.in_channels, num_classes=num_classes).to(device)
-    elif args.architecture == 'cnn5':
-        model = CNN5(in_channels=args.in_channels, num_classes=num_classes).to(device)
-    elif args.architecture == 'vgg11':
-        model = VGG11(in_channels=args.in_channels, num_classes=num_classes).to(device)
-    elif args.architecture == 'vgg13':
-        model = VGG13(in_channels=args.in_channels, num_classes=num_classes).to(device)
-    elif args.architecture == 'vgg16':
-        model = VGG16(in_channels=args.in_channels, num_classes=num_classes).to(device)
-    elif args.architecture == 'tlvgg16':
-        # Load pretrain model and modify it
-        model = torchvision.models.vgg16(pretrained=args.pretrained)
-        print(f"Pretrained is set: {args.pretrained}")
-        # Do not change the layers upto that point
-        # Freeze the parameters so that the gradients are not computed in backward()
-        for param in model.parameters():
-            param.requires_grad = args.requires_grad
-        print(f"requires_grad={args.requires_grad}")
-        model.avgpool = Identity()
-        # This will only train the last layers
-        model.classifier = nn.Sequential(nn.Linear(32768, 100),
-                                         nn.ReLU(),
-                                         nn.Linear(100, 10))
-        model.to(device)
-    elif args.architecture == 'vgg19':
-        model = VGG19(in_channels=args.in_channels, num_classes=num_classes).to(device)
-    elif args.architecture == 'tlalexnet':
-        model = torchvision.models.alexnet(pretrained=args.pretrained)
-        print(f"Pretrained={args.pretrained}")
-        for param in model.parameters():
-            param.requires_grad = args.requires_grad
-        print(f"requires_grad={args.requires_grad}")
-        model.classifier = nn.Sequential(nn.Dropout(),
-                                         nn.Linear(9216, 4096),
-                                         nn.ReLU(),
-                                         nn.Dropout(),
-                                         nn.Linear(4096, 4096),
-                                         nn.ReLU(),
-                                         nn.Linear(4096, 10))
-        model.to(device)
-    elif args.architecture == 'resnet18':
-        model = ResNet18(in_channels=args.in_channels, num_classes=num_classes).to(device)
-    elif args.architecture == 'tlresnet18':
-        model = torchvision.models.resnet18(pretrained=args.pretrained)
-        print(f"Pretrained={args.pretrained}")
-        for param in model.parameters():
-            param.requires_grad = args.requires_grad
-        print(f"requires_grad={args.requires_grad}")
-        model.classifier = nn.Linear(512*4, 10)
-        model.to(device)
-    elif args.architecture == 'resnet50':
-        model = ResNet50(in_channels=args.in_channels, num_classes=num_classes).to(device)
-    elif args.architecture == 'resnet101':
-        model = ResNet101(in_channels=args.in_channels, num_classes=num_classes).to(device)
-    else:
-        model = ResNet152(in_channels=args.in_channels, num_classes=num_classes).to(device)
-
+    # Network
+    model = networks(architecture=args.architecture, in_channels=args.in_channels, num_classes=num_classes,
+                     pretrained=args.pretrained, requires_grad=args.requires_grad).to(device)
     print(model)
 
     # Loss and optimizer
@@ -304,7 +244,7 @@ def main():
     wandb.sklearn.plot_class_proportions(y_train, y_test, labels)
     precision, recall, f1_score, support = score(y_test, train_preds.argmax(dim=1))
     test_acc = accuracy_score(y_test, train_preds.argmax(dim=1))
-    wandb.log({"Test Accuracy": test_acc}, step=train_steps)
+    wandb.log({"Test Accuracy": test_acc})
 
     print(f"Test Accuracy: {test_acc}")
     print(f"precision: {precision}")
