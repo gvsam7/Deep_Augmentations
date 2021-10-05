@@ -121,7 +121,7 @@ def main():
 
     # Network
     model = networks(architecture=args.architecture, in_channels=args.in_channels, num_classes=num_classes,
-                     pretrained=args.pretrained, requires_grad=args.requires_grad).to(device)
+                     pretrained=args.pretrained, requires_grad=args.requires_grad, global_pooling=args.global_pooling).to(device)
     print(model)
 
     # Loss and optimizer
@@ -130,6 +130,7 @@ def main():
 
     # Load model
     if args.load_model is True:
+        print(f"Load model is {args.load_model}")
         if device == torch.device("cpu"):
             load_checkpoint(torch.load("my_checkpoint.pth.tar", map_location=torch.device('cpu')), model, optimizer)
         else:

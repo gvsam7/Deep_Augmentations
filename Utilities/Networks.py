@@ -6,7 +6,7 @@ from models.VGG import VGG11, VGG13, VGG16, VGG19
 from Utilities.Identity import Identity
 
 
-def networks(architecture, in_channels, num_classes, pretrained, requires_grad):
+def networks(architecture, in_channels, num_classes, pretrained, requires_grad, global_pooling):
     if architecture == 'cnn4':
         model = CNN4(in_channels, num_classes)
     elif architecture == 'cnn5':
@@ -27,11 +27,18 @@ def networks(architecture, in_channels, num_classes, pretrained, requires_grad):
             for param in model.parameters():
                 param.requires_grad = requires_grad
             print(f"requires_grad={requires_grad}")
-            model.avgpool = Identity()
-            # This will only train the last layers
-            model.classifier = nn.Sequential(nn.Linear(32768, 100),
-                                             nn.ReLU(),
-                                             nn.Linear(100, 10))
+            if global_pooling == "GP":
+                print(f"Pooling: {global_pooling}")
+                model.classifier = nn.Sequential(nn.Linear(25088, 100),
+                                                 nn.ReLU(),
+                                                 nn.Linear(100, 10))
+            else:
+                print(f"Pooling: {global_pooling}")
+                model.avgpool = Identity()
+                # This will only train the last layers
+                model.classifier = nn.Sequential(nn.Linear(32768, 100),
+                                                 nn.ReLU(),
+                                                 nn.Linear(100, 10))
         else:
             print(f"Fully trained from SSRP data, Pretrained={pretrained}")
     elif architecture == 'vgg19':
@@ -43,13 +50,25 @@ def networks(architecture, in_channels, num_classes, pretrained, requires_grad):
             for param in model.parameters():
                 param.requires_grad = requires_grad
             print(f"requires_grad={requires_grad}")
-            model.classifier = nn.Sequential(nn.Dropout(),
-                                             nn.Linear(9216, 4096),
-                                             nn.ReLU(),
-                                             nn.Dropout(),
-                                             nn.Linear(4096, 4096),
-                                             nn.ReLU(),
-                                             nn.Linear(4096, 10))
+            if global_pooling == "GP":
+                print(f"Pooling: {global_pooling}")
+                model.classifier = nn.Sequential(nn.Dropout(),
+                                                 nn.Linear(9216, 4096),
+                                                 nn.ReLU(),
+                                                 nn.Dropout(),
+                                                 nn.Linear(4096, 4096),
+                                                 nn.ReLU(),
+                                                 nn.Linear(4096, 10))
+            else:
+                print(f"Pooling: {global_pooling}")
+                model.avgpool = Identity()
+                model.classifier = nn.Sequential(nn.Dropout(),
+                                                 nn.Linear(12544, 4096),
+                                                 nn.ReLU(),
+                                                 nn.Dropout(),
+                                                 nn.Linear(4096, 4096),
+                                                 nn.ReLU(),
+                                                 nn.Linear(4096, 10))
         else:
             print(f"Fully trained from SSRP data, Pretrained={pretrained}")
     elif architecture == 'resnet18':

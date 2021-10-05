@@ -18,6 +18,7 @@ def arguments():
     parser.add_argument("--Augmentation", default="none", help="none, position, cutout")
     parser.add_argument("--pretrained", default=True)
     parser.add_argument("--requires-grad", default=False)
+    parser.add_argument("--global-pooling", default=None)
     parser.add_argument("--architecture", default="cnn4", help="cnn4=CNN4, cnn5=CNN5, vgg11=VGG11, vgg13=VGG13,"
                                                                     "vgg16=VGG16, tlvgg16=pretrain VGG16, vgg19=VGG19,"
                                                                     "resnet18=ResNet18, tlresnet18= pretrain ResNet18,"
