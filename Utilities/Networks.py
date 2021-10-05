@@ -29,15 +29,23 @@ def networks(architecture, in_channels, num_classes, pretrained, requires_grad, 
             print(f"requires_grad={requires_grad}")
             if global_pooling == "GP":
                 print(f"Pooling: {global_pooling}")
-                model.classifier = nn.Sequential(nn.Linear(25088, 100),
+                model.classifier = nn.Sequential(nn.Linear(25088, 4096),
                                                  nn.ReLU(),
-                                                 nn.Linear(100, 10))
+                                                 nn.Dropout(),
+                                                 nn.Linear(4096, 4096),
+                                                 nn.ReLU(),
+                                                 nn.Dropout(),
+                                                 nn.Linear(4096, 10))
             else:
                 print(f"Pooling: {global_pooling}")
                 model.avgpool = Identity()
                 # This will only train the last layers
                 model.classifier = nn.Sequential(nn.Linear(32768, 100),
                                                  nn.ReLU(),
+                                                 nn.Dropout(),
+                                                 nn.Linear(4096, 4096),
+                                                 nn.ReLU(),
+                                                 nn.Dropout(),
                                                  nn.Linear(100, 10))
         else:
             print(f"Fully trained from SSRP data, Pretrained={pretrained}")
