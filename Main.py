@@ -241,24 +241,24 @@ def main():
     outputs, intermediates, labels = get_representations(model, train_loader, device)
 
     output_pca_data = get_pca(outputs)
-    plot_representations(output_pca_data, labels, classes)
+    plot_representations(output_pca_data, labels, classes, "PCA")
     wandb.save('PCA.png')
 
     # Intermediate Principle Components Analysis (PCA)
     intermediate_pca_data = get_pca(intermediates)
-    plot_representations(intermediate_pca_data, labels, classes)
+    plot_representations(intermediate_pca_data, labels, classes, "INTPCA")
     wandb.save('Intermediate_PCA.png')
 
     # t-Distributed Stochastic Neighbor Embedding (t-SNE)
     n_images = 5_000
 
     output_tsne_data = get_tsne(outputs, n_images=n_images)
-    plot_representations(output_tsne_data, labels, classes, n_images=n_images)
+    plot_representations(output_tsne_data, labels, classes, "TSNE", n_images=n_images)
     wandb.save('TSNE.png')
 
     # Intermediate t-Distributed Stochastic Neighbor Embedding (t-SNE)
     intermediate_tsne_data = get_tsne(intermediates, n_images=n_images)
-    plot_representations(intermediate_tsne_data, labels, classes, n_images=n_images)
+    plot_representations(intermediate_tsne_data, labels, classes, "INTTSNE", n_images=n_images)
     wandb.save('Intermediate_TSNE.png')
 
     # Confusion Matrix

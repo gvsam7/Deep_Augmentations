@@ -103,7 +103,7 @@ def get_pca(data, n_components=2):
     return pca_data
 
 
-def plot_representations(data, labels, classes, n_images=None):
+def plot_representations(data, labels, classes, type, n_images=None):
     if n_images is not None:
         data = data[:n_images]
         labels = labels[:n_images]
@@ -113,11 +113,11 @@ def plot_representations(data, labels, classes, n_images=None):
     scatter = ax.scatter(data[:, 0], data[:, 1], c=labels, cmap='tab10')
     handles, labels = scatter.legend_elements()
     legend = ax.legend(handles=handles, labels=classes)
-    if data is "output_pca_data":
+    if type == "PCA":
         fig.savefig("PCA", bbox_inches='tight')
-    elif data is "intermediate_pca_data":
+    elif type == "INTPCA":
         fig.savefig("Intermediate_PCA", bbox_inches='tight')
-    elif data is "output_tsne_data":
+    elif type == "TSNE":
         fig.savefig("TSNE", bbox_inches='tight')
     else:
         fig.savefig("Intermediate_TSNE", bbox_inches='tight')
