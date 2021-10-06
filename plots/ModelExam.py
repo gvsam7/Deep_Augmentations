@@ -113,6 +113,7 @@ def plot_representations(data, labels, classes, n_images=None):
     scatter = ax.scatter(data[:, 0], data[:, 1], c=labels, cmap='tab10')
     handles, labels = scatter.legend_elements()
     legend = ax.legend(handles=handles, labels=classes)
+    fig.savefig("PCA", bbox_inches='tight')
 
 
 def get_tsne(data, n_components=2, n_images=None):
