@@ -113,11 +113,11 @@ def plot_representations(data, labels, classes, n_images=None):
     scatter = ax.scatter(data[:, 0], data[:, 1], c=labels, cmap='tab10')
     handles, labels = scatter.legend_elements()
     legend = ax.legend(handles=handles, labels=classes)
-    if data == "output_pca_data":
+    if data is "output_pca_data":
         fig.savefig("PCA", bbox_inches='tight')
-    elif data == "intermediate_pca_data":
+    elif data is "intermediate_pca_data":
         fig.savefig("Intermediate_PCA", bbox_inches='tight')
-    elif data == "output_tsne_data":
+    elif data is "output_tsne_data":
         fig.savefig("TSNE", bbox_inches='tight')
     else:
         fig.savefig("Intermediate_TSNE", bbox_inches='tight')
