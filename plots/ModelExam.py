@@ -81,7 +81,9 @@ def get_representations(model, iterator, device):
     with torch.no_grad():
         for x, y in iterator:
             x = x.to(device)
-            y_pred, h = model(x)
+            # y_pred, h = model(x)
+            y_pred = model(x)
+            h = model(x)
 
             outputs.append(y_pred.cpu())
             intermediates.append(h.cpu())
