@@ -18,7 +18,6 @@ def get_predictions(model, iterator, device):
         for data, targets in iterator:
             data = data.to(device=device)
             y_pred = model(data)
-            # y_pred, _ = model(data)
 
             y_prob = F.softmax(y_pred, dim=-1)
             top_pred = y_prob.argmax(1, keepdim=True)
@@ -70,6 +69,7 @@ def plot_most_incorrect(incorrect, classes, n_images, normalize=True):
     fig.subplots_adjust(hspace=0.4)
     fig.savefig("Most_Conf_Incorrect_Pred", bbox_inches='tight')
 
+
 def get_representations(model, iterator, device):
 
     model.eval()
@@ -81,7 +81,6 @@ def get_representations(model, iterator, device):
     with torch.no_grad():
         for x, y in iterator:
             x = x.to(device)
-            # y_pred, h = model(x)
             y_pred = model(x)
             h = model(x)
 
@@ -130,4 +129,3 @@ def get_tsne(data, n_components=2, n_images=None):
     tsne = manifold.TSNE(n_components=n_components, random_state=0)
     tsne_data = tsne.fit_transform(data)
     return tsne_data
-

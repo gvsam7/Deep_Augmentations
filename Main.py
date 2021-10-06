@@ -80,7 +80,6 @@ def main():
     # Load Data
     dataset = ImageFolder("Training_Data_2018_2014")
     labels = dataset.classes
-    print(f"labels: {labels}")
     num_classes = len(labels)
     y = dataset.targets
     dataset_len = len(dataset)
