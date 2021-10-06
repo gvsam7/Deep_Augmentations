@@ -29,6 +29,7 @@ from Utilities.Data import DataRetrieve
 from Utilities.config import train_transforms, val_transforms, test_transforms
 from Utilities.Networks import networks
 from Utilities.Hyperparameters import arguments
+from plots.ModelExam import get_predictions, plot_most_incorrect, get_representations, get_pca, plot_representations, get_tsne
 from CutMix.Cutout import mask
 import matplotlib.pyplot as plt
 from pandas import DataFrame
@@ -79,6 +80,7 @@ def main():
     # Load Data
     dataset = ImageFolder("Training_Data_2018_2014")
     labels = dataset.classes
+    print(f"labels: {labels}")
     num_classes = len(labels)
     y = dataset.targets
     dataset_len = len(dataset)
@@ -213,6 +215,50 @@ def main():
     print(f"Train predictions shape: {train_preds.shape}")
     print(f"The label the network predicts strongly: {train_preds.argmax(dim=1)}")
     predictions = train_preds.argmax(dim=1)
+
+    # Most Confident Incorrect Predictions
+    images, labels, probs = get_predictions(model, prediction_loader, device)
+
+    pred_labels = torch.argmax(probs, 1)
+    print(f"pred_labels: {pred_labels}")
+
+    corrects = torch.eq(labels, pred_labels)
+
+    incorrect_examples = []
+
+    for image, label, prob, correct in zip(images, labels, probs, corrects):
+        if not correct:
+            incorrect_examples.append((image, label, prob))
+    incorrect_examples.sort(reverse=True, key=lambda x: torch.max(x[2], dim=0).values)
+
+    n_images = 48
+    classes = labels
+    plot_most_incorrect(incorrect_examples, classes, n_images)
+    wandb.save('Most_Conf_Incorrect_Pred.png')
+
+    # Principle Components Analysis (PCA)
+    outputs, intermediates, labels = get_representations(model, train_loader, device)
+
+    output_pca_data = get_pca(outputs)
+    plot_representations(output_pca_data, labels, classes)
+    wandb.save('PCA.png')
+
+    # Intermediate Principle Components Analysis (PCA)
+    intermediate_pca_data = get_pca(intermediates)
+    plot_representations(intermediate_pca_data, labels, classes)
+    wandb.save('Intermediate_PCA.png')
+
+    # t-Distributed Stochastic Neighbor Embedding (t-SNE)
+    n_images = 5_000
+
+    output_tsne_data = get_tsne(outputs, n_images=n_images)
+    plot_representations(output_tsne_data, labels, classes, n_images=n_images)
+    wandb.save('TSNE.png')
+
+    # Intermediate t-Distributed Stochastic Neighbor Embedding (t-SNE)
+    intermediate_tsne_data = get_tsne(intermediates, n_images=n_images)
+    plot_representations(intermediate_tsne_data, labels, classes, n_images=n_images)
+    wandb.save('Intermediate_TSNE.png')
 
     # Confusion Matrix
     wandb.sklearn.plot_confusion_matrix(y_test, train_preds.argmax(dim=1), labels)

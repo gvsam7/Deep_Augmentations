@@ -28,7 +28,7 @@ def networks(architecture, in_channels, num_classes, pretrained, requires_grad, 
                 param.requires_grad = requires_grad
             print(f"requires_grad={requires_grad}")
             if global_pooling == "GP":
-                print(f"Pooling: {global_pooling}")
+                print(f"Global Pooling: {global_pooling}")
                 model.classifier = nn.Sequential(nn.Linear(25088, 4096),
                                                  nn.ReLU(),
                                                  nn.Dropout(),
@@ -37,7 +37,7 @@ def networks(architecture, in_channels, num_classes, pretrained, requires_grad, 
                                                  nn.Dropout(),
                                                  nn.Linear(4096, 10))
             else:
-                print(f"Pooling: {global_pooling}")
+                print(f"Global Pooling: {global_pooling}")
                 model.avgpool = Identity()
                 # This will only train the last layers
                 model.classifier = nn.Sequential(nn.Linear(32768, 100),
@@ -59,7 +59,7 @@ def networks(architecture, in_channels, num_classes, pretrained, requires_grad, 
                 param.requires_grad = requires_grad
             print(f"requires_grad={requires_grad}")
             if global_pooling == "GP":
-                print(f"Pooling: {global_pooling}")
+                print(f"Global Pooling: {global_pooling}")
                 model.classifier = nn.Sequential(nn.Dropout(),
                                                  nn.Linear(9216, 4096),
                                                  nn.ReLU(),
@@ -68,7 +68,7 @@ def networks(architecture, in_channels, num_classes, pretrained, requires_grad, 
                                                  nn.ReLU(),
                                                  nn.Linear(4096, 10))
             else:
-                print(f"Pooling: {global_pooling}")
+                print(f"Global Pooling: {global_pooling}")
                 model.avgpool = Identity()
                 model.classifier = nn.Sequential(nn.Dropout(),
                                                  nn.Linear(12544, 4096),
