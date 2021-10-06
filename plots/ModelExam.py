@@ -79,7 +79,7 @@ def get_representations(model, iterator, device):
     labels = []
 
     with torch.no_grad():
-        for (x, y) in iterator:
+        for x, y in iterator:
             x = x.to(device)
             y_pred, h = model(x)
 
