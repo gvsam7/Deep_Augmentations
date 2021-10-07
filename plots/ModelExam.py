@@ -51,7 +51,7 @@ def plot_confusion_matrix(labels, pred_labels, classes):
     cm = ConfusionMatrixDisplay(cm, display_labels=classes);
     cm.plot(values_format='d', cmap='Blues', ax=ax)
     plt.xticks(rotation=20)
-    fig.savefig("Confusion_Matrix", bbox_inches='tight')
+    fig.savefig("Confusion Matrix", bbox_inches='tight')
 
 
 def plot_most_incorrect(incorrect, classes, n_images, normalize=True):
