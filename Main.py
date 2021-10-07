@@ -261,7 +261,7 @@ def main():
     wandb.save('Intermediate_TSNE.png')
 
     # Confusion Matrix
-    wandb.sklearn.plot_confusion_matrix(y_test, train_preds.argmax(dim=1), labels)
+    wandb.plot.confusion_matrix(y_test, train_preds.argmax(dim=1), labels)
     # Class proportions
     wandb.sklearn.plot_class_proportions(y_train, y_test, labels)
     precision, recall, f1_score, support = score(y_test, train_preds.argmax(dim=1))
