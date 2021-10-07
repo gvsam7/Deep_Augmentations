@@ -260,7 +260,7 @@ def main():
     plot_representations(intermediate_tsne_data, labels, classes, "INTTSNE", n_images=n_images)
     wandb.save('Intermediate_TSNE.png')
 
-    plot_confusion_matrix(labels, pred_labels, classes)
+    plot_confusion_matrix(y_test, train_preds.argmax(dim=1), labels)
     wandb.save('Confusion_Matrix.png')
 
     # Confusion Matrix
