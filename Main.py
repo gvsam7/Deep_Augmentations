@@ -29,7 +29,7 @@ from Utilities.Data import DataRetrieve
 from Utilities.config import train_transforms, val_transforms, test_transforms
 from Utilities.Networks import networks
 from Utilities.Hyperparameters import arguments
-from plots.ModelExam import get_predictions, plot_most_incorrect, get_representations, get_pca, plot_representations, get_tsne
+from plots.ModelExam import get_predictions, plot_confusion_matrix, plot_most_incorrect, get_representations, get_pca, plot_representations, get_tsne
 from CutMix.Cutout import mask
 import matplotlib.pyplot as plt
 from pandas import DataFrame
@@ -260,9 +260,11 @@ def main():
     plot_representations(intermediate_tsne_data, labels, classes, "INTTSNE", n_images=n_images)
     wandb.save('Intermediate_TSNE.png')
 
+    plot_confusion_matrix(labels, pred_labels, classes)
+    wandb.save('Confusion_Matrix.png')
+
     # Confusion Matrix
     wandb.sklearn.plot_confusion_matrix(y_test, train_preds.argmax(dim=1), labels)
-    wandb.log(wandb.sklearn.plot_confusion_matrix(y_test, train_preds.argmax(dim=1), labels))
     # Class proportions
     wandb.sklearn.plot_class_proportions(y_train, y_test, labels)
     precision, recall, f1_score, support = score(y_test, train_preds.argmax(dim=1))

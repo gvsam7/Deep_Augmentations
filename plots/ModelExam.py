@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn import decomposition
 from sklearn import manifold
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import ConfusionMatrixDisplay
 
 
 def get_predictions(model, iterator, device):
@@ -40,6 +42,16 @@ def normalize_image(image):
     image.add_(-image_min).div_(image_max - image_min + 1e-5)
 
     return image
+
+
+def plot_confusion_matrix(labels, pred_labels, classes):
+    fig = plt.figure(figsize=(10, 10))
+    ax = fig.add_subplot(1, 1, 1)
+    cm = confusion_matrix(labels, pred_labels)
+    cm = ConfusionMatrixDisplay(cm, display_labels=classes)
+    cm.plot(values_format='d', cmap='Blues', ax=ax)
+    plt.xticks(rotation=20)
+    fig.savefig("Confusion_Matrix", bbox_inches='tight')
 
 
 def plot_most_incorrect(incorrect, classes, n_images, normalize=True):
