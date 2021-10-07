@@ -1,6 +1,6 @@
 from torch import nn
 import torch.nn.functional as F
-from Pool.MedianPool import MedianPool2d
+# from Pool.MedianPool import MedianPool2d
 
 
 class CNN4(nn.Module):
