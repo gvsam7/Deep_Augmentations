@@ -101,7 +101,8 @@ class OldCNN3(nn.Module):
         self.pool3 = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
 
         # self.fc1 = nn.Linear(128 * 32 * 32, 512)
-        self.fc1 = nn.Linear(18432, 512)
+        # self.fc1 = nn.Linear(18432, 512)
+        self.fc1 = nn.Linear(4608, 512)
         self.fc2 = nn.Linear(512, num_classes)
 
     def forward(self, x):
