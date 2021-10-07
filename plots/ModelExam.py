@@ -50,7 +50,7 @@ def plot_confusion_matrix(labels, pred_labels, classes):
     cm = confusion_matrix(labels, pred_labels);
     cm = ConfusionMatrixDisplay(cm, display_labels=classes);
     cm.plot(values_format='d', cmap='Blues', ax=ax)
-    plt.xticks(rotation=20)
+    plt.xticks(rotation=45)
     fig.savefig("Confusion_Matrix", bbox_inches='tight')
 
 
