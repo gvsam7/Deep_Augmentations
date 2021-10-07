@@ -262,12 +262,12 @@ def main():
 
     # Confusion Matrix
     wandb.sklearn.plot_confusion_matrix(y_test, train_preds.argmax(dim=1), labels)
+    wandb.log(wandb.sklearn.plot_confusion_matrix(y_test, train_preds.argmax(dim=1), labels))
     # Class proportions
     wandb.sklearn.plot_class_proportions(y_train, y_test, labels)
     precision, recall, f1_score, support = score(y_test, train_preds.argmax(dim=1))
     test_acc = accuracy_score(y_test, train_preds.argmax(dim=1))
     wandb.log({"Test Accuracy": test_acc})
-    wandb.log({"conf_mat": wandb.plot.confusion_matrix(probs=None, y_true=y_test, preds=train_preds.argmax(dim=1), class_names=labels)})
 
     print(f"Test Accuracy: {test_acc}")
     print(f"precision: {precision}")
