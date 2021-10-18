@@ -29,7 +29,7 @@ from Utilities.Data import DataRetrieve
 from Utilities.config import train_transforms, val_transforms, test_transforms
 from Utilities.Networks import networks
 from Utilities.Hyperparameters import arguments
-from plots.ModelExam import get_predictions, plot_confusion_matrix, plot_most_incorrect, get_representations, get_pca, plot_representations, get_tsne
+from plots.ModelExam import parameters, get_predictions, plot_confusion_matrix, plot_most_incorrect, get_representations, get_pca, plot_representations, get_tsne
 from CutMix.Cutout import mask
 import matplotlib.pyplot as plt
 from pandas import DataFrame
@@ -124,6 +124,8 @@ def main():
     model = networks(architecture=args.architecture, in_channels=args.in_channels, num_classes=num_classes,
                      pretrained=args.pretrained, requires_grad=args.requires_grad, global_pooling=args.global_pooling).to(device)
     print(model)
+    n_parameters = parameters(model)
+    print(f"The model has {n_parameters:,} trainable parameters")
 
     # Loss and optimizer
     criterion = nn.CrossEntropyLoss()
@@ -249,7 +251,7 @@ def main():
     wandb.save('Intermediate_PCA.png')
 
     # t-Distributed Stochastic Neighbor Embedding (t-SNE)
-    n_images = 5_000
+    n_images = 10_000
 
     output_tsne_data = get_tsne(outputs, n_images=n_images)
     plot_representations(output_tsne_data, labels, classes, "TSNE", n_images=n_images)
