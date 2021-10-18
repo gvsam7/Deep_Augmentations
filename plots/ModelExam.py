@@ -8,6 +8,10 @@ from sklearn.metrics import confusion_matrix
 from sklearn.metrics import ConfusionMatrixDisplay
 
 
+def parameters(model):
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
+
+
 def get_predictions(model, iterator, device):
 
     model.eval()
