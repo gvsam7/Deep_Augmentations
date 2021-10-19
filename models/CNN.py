@@ -140,8 +140,9 @@ class OldCNN4(nn.Module):
         )
 
         self.classifier = nn.Sequential(
-            nn.Linear(256 * 6 * 6, 512),  # 100x100
-            # nn.Linear(256 * 16 * 16, 512), # 256x256 (5,112,137 trainable parameters)
+            nn.Linear(256 * 3 * 3, 512),  # 50x50 (1,573,193 trainable parameters)
+            # nn.Linear(256 * 6 * 6, 512),  # 100x100 (5,112,137 trainable parameters)
+            # nn.Linear(256 * 16 * 16, 512), # 256x256
             nn.ReLU(inplace=True),
             nn.Linear(512, num_classes)
         )
