@@ -175,8 +175,8 @@ class OldCNN5(nn.Module):
         )
 
         self.classifier = nn.Sequential(
-            # nn.Linear(512 * 3 * 3, 512),  # 100x100 
-            nn.Linear(512 * 8 * 8, 512),  # 256x256 (18,350,921 trainable parameters)
+            nn.Linear(512 * 3 * 3, 512),  # 100x100 (3,933,001 trainable parameters)
+            # nn.Linear(512 * 8 * 8, 512),  # 256x256 (18,350,921 trainable parameters)
             nn.ReLU(inplace=True),
             nn.Linear(512, num_classes)
         )
