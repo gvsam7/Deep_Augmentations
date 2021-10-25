@@ -209,9 +209,8 @@ class AlexNet(nn.Module):
 
         self.classifier = nn.Sequential(
             nn.Dropout(0.5),
-            # nn.Linear(256 * 3 * 3, 4096),  # 50x50 (1,573,193 trainable parameters)
-            # nn.Linear(256 * 6 * 6, 4096),  # 100x100 (5,112,137 trainable parameters)
-            nn.Linear(256 * 7 * 7, 4096),  # 256x256 (70,672,201  trainable parameters)
+            nn.Linear(256 * 2 * 2, 4096),  # 100x100 ( 23,486,281 trainable parameters)
+            # nn.Linear(256 * 7 * 7, 4096),  # 256x256 (70,672,201  trainable parameters)
             nn.ReLU(inplace=True),
             nn.Dropout(0.5),
             nn.Linear(4096, 4096),
