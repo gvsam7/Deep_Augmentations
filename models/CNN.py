@@ -192,24 +192,26 @@ class AlexNet(nn.Module):
     def __init__(self, in_channels=3, num_classes=9):
         super(AlexNet, self).__init__()
         self.features = nn.Sequential(
-            nn.Conv2d(in_channels, 64, 3, 2, 1),
-            nn.MaxPool2d(2),
+            nn.Conv2d(in_channels, 64, 11, 4, 2),
             nn.ReLU(inplace=True),
-            nn.Conv2d(64, 192, 3, 1, 1),
-            nn.MaxPool2d(2),
+            nn.MaxPool2d(3, 2, 0, 1),
+            nn.Conv2d(64, 192, 5, 1, 2),
             nn.ReLU(inplace=True),
+            nn.MaxPool2d(3, 2, 0, 1),
             nn.Conv2d(192, 384, 3, 1, 1),
             nn.ReLU(inplace=True),
             nn.Conv2d(384, 256, 3, 1, 1),
             nn.ReLU(inplace=True),
             nn.Conv2d(256, 256, 3, 1, 1),
-            nn.MaxPool2d(2),
-            nn.ReLU(inplace=True)
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(3, 2, 0, 1)
         )
 
         self.classifier = nn.Sequential(
             nn.Dropout(0.5),
-            nn.Linear(256 * 16 * 16, 4096),
+            # nn.Linear(256 * 3 * 3, 4096),  # 50x50 (1,573,193 trainable parameters)
+            # nn.Linear(256 * 6 * 6, 4096),  # 100x100 (5,112,137 trainable parameters)
+            nn.Linear(256 * 7 * 7, 4096),  # 256x256 (70,672,201  trainable parameters)
             nn.ReLU(inplace=True),
             nn.Dropout(0.5),
             nn.Linear(4096, 4096),
