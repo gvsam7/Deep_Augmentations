@@ -19,7 +19,6 @@ class VGG(nn.Module):
             # nn.Linear(512 * 8 * 8, 4096),  # 256x256 (165,763,145 trainable parameters)
             # nn.Linear(512 * 3 * 3, 4096),  # 100x100 (50,419,785 trainable parameters)
             nn.Linear(512 * 1 * 1, 4096),  # 50x50 (33,642,569 trainable parameters)
-            # nn.Linear(512 * height/32 * width/32, 4096),
             nn.ReLU(),
             nn.Dropout(p=0.5),
             nn.Linear(4096, 4096),
