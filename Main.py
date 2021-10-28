@@ -78,7 +78,13 @@ def main():
         print("Running on the CPU")
 
     # Load Data
-    dataset = ImageFolder("Training_Data_2018_2014")
+    if args.dataset == "bw":
+        dataset = ImageFolder("BW_Training_Data_2018_2014")
+        in_channels = 1
+        print(f"Dataset is {args.dataset}")
+    else:
+        dataset = ImageFolder("Training_Data_2018_2014")
+        in_channels = 3
     labels = dataset.classes
     num_classes = len(labels)
     y = dataset.targets

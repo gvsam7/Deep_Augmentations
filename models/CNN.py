@@ -100,9 +100,9 @@ class OldCNN3(nn.Module):
         )
         self.pool3 = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))
 
-        # self.fc1 = nn.Linear(128 * 32 * 32, 512)
+        self.fc1 = nn.Linear(128 * 32 * 32, 512)
         # self.fc1 = nn.Linear(18432, 512)
-        self.fc1 = nn.Linear(4608, 512)
+        # self.fc1 = nn.Linear(4608, 512)
         self.fc2 = nn.Linear(512, num_classes)
 
     def forward(self, x):
@@ -175,8 +175,8 @@ class OldCNN5(nn.Module):
         )
 
         self.classifier = nn.Sequential(
-            nn.Linear(512 * 3 * 3, 512),  # 100x100 (3,933,001 trainable parameters)
-            # nn.Linear(512 * 8 * 8, 512),  # 256x256 (18,350,921 trainable parameters)
+            # nn.Linear(512 * 3 * 3, 512),  # 100x100 (3,933,001 trainable parameters)
+            nn.Linear(512 * 8 * 8, 512),  # 256x256 (18,350,921 trainable parameters)
             nn.ReLU(inplace=True),
             nn.Linear(512, num_classes)
         )
@@ -189,7 +189,7 @@ class OldCNN5(nn.Module):
 
 
 class AlexNet(nn.Module):
-    def __init__(self, in_channels=3, num_classes=9):
+    def __init__(self, in_channels, num_classes=9):
         super(AlexNet, self).__init__()
         self.features = nn.Sequential(
             nn.Conv2d(in_channels, 64, 11, 4, 2),
@@ -209,8 +209,8 @@ class AlexNet(nn.Module):
 
         self.classifier = nn.Sequential(
             nn.Dropout(0.5),
-            nn.Linear(256 * 2 * 2, 4096),  # 100x100 ( 23,486,281 trainable parameters)
-            # nn.Linear(256 * 7 * 7, 4096),  # 256x256 (70,672,201  trainable parameters)
+            # nn.Linear(256 * 2 * 2, 4096),  # 100x100 ( 23,486,281 trainable parameters)
+            nn.Linear(256 * 7 * 7, 4096),  # 256x256 (70,672,201  trainable parameters)
             nn.ReLU(inplace=True),
             nn.Dropout(0.5),
             nn.Linear(4096, 4096),
