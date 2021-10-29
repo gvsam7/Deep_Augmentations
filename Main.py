@@ -138,7 +138,7 @@ def main():
     optimizer = optim.Adam(model.parameters(), lr=args.lr)
 
     # Load model
-    if args.load_model is True:
+    if args.load_model == 'True':
         print(f"Load model is {args.load_model}")
         if device == torch.device("cpu"):
             load_checkpoint(torch.load("my_checkpoint.pth.tar", map_location=torch.device('cpu')), model, optimizer)
@@ -192,8 +192,8 @@ def main():
         train_avg_acc = sum_acc / len(train_loader)
 
         # Saving model
-        if args.save_model is True:
-            if epoch % 10 == 0:
+        if args.save_model == 'True':
+            if epoch % 1 == 0:
                 checkpoint = {
                     "state_dict": model.state_dict(),
                     "optimizer": optimizer.state_dict(),

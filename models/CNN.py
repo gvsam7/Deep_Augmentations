@@ -120,6 +120,86 @@ class OldCNN3(nn.Module):
         return x
 
 
+class CNN2(nn.Module):
+    def __init__(self, in_channels, num_classes):
+        super(CNN2, self).__init__()
+
+        self.features = nn.Sequential(
+            nn.Conv2d(in_channels, 16, 3, 1, 1),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(2),
+            nn.Conv2d(16, 32, 3, 1, 1),
+            nn.ReLU(inplace=True),
+            # nn.MaxPool2d(2)
+            nn.AdaptiveAvgPool2d((1, 1))
+        )
+
+        self.classifier = nn.Sequential(
+            # nn.Linear(32 * 64 * 64, num_classes) #256x256
+            # nn.Linear(32 * 12 * 12, num_classes)  #50x50
+            nn.Linear(32, num_classes) # 50x50 global pooling
+        )
+
+    def forward(self, x):
+        x = self.features(x)
+        x = x.flatten(1)
+        x = self.classifier(x)
+        return x
+
+
+class CAMCNN2(nn.Module):
+    def __init__(self, in_channels, num_classes):
+        super(CAMCNN2, self).__init__()
+
+        self.features = nn.Sequential(
+            nn.Conv2d(in_channels, 16, 3, 1, 1),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(2),
+            nn.Conv2d(16, 32, 3, 1, 1),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(2)
+        )
+
+        # disect the network to access its last convolutional layer
+        self.features_conv = self.features[:5]
+
+        # get the max pool of the features stem
+        self.max_pool = nn.MaxPool2d(2)
+
+        self.classifier = nn.Sequential(
+            # nn.Linear(32 * 64 * 64, num_classes) #256x256
+            nn.Linear(32 * 12 * 12, num_classes)  #50x50
+        )
+
+        # placeholder for the gradients
+        self.gradients = None
+
+    # hook for the gradients of the activations
+    def activations_hook(self, grad):
+        self.gradients = grad
+
+    def forward(self, x):
+        x = self.features_conv(x)
+
+        # register the hook
+        h = x.register_hook(self.activations_hook)
+
+        # apply the remaining pooling
+        x = self.max_pool(x)
+        # x = x.view((1, -1))
+        x = x.flatten(1)
+        x = self.classifier(x)
+        return x
+
+    # method for gradient extraction
+    def get_activations_gradient(self):
+        return self.gradients
+
+    # method for the activation extraction
+    def get_activations(self, x):
+        return self.features_conv(x)
+
+
 class OldCNN4(nn.Module):
     def __init__(self, in_channels=3, num_classes=9):
         super(OldCNN4, self).__init__()
