@@ -327,7 +327,6 @@ class FCNN4(nn.Module):
         self.bn1 = nn.BatchNorm2d(32)
 
 
-"""
 # prototype 96% Accuracy
 class CNN5(nn.Module):
     def __init__(self, in_channels=3, num_classes=10):
@@ -405,9 +404,9 @@ class CNN5(nn.Module):
         # x = x.reshape(x.shape[0], -1)
         x = x.flatten(1)
         x = self.fc1(x)
-        return x"""
+        return x
 
-
+"""
 class CNN5(nn.Module):
     def __init__(self, in_channels, num_classes):
         super(CNN5, self).__init__()
@@ -444,3 +443,4 @@ class CNN5(nn.Module):
         x = x.flatten(1)
         x = self.classifier(x)
         return x
+"""

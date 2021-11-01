@@ -82,9 +82,14 @@ def main():
         dataset = ImageFolder("BW_Training_Data_2018_2014")
         in_channels = 1
         print(f"Dataset is {args.dataset}")
+    elif args.dataset == "edge":
+        dataset = ImageFolder("Edge_Training_Data_2018_2014")
+        in_channels = 1
+        print(f"Dataset is {args.dataset}")
     else:
         dataset = ImageFolder("Training_Data_2018_2014")
         in_channels = 3
+        print(f"Dataset is {args.dataset}")
     labels = dataset.classes
     num_classes = len(labels)
     y = dataset.targets
