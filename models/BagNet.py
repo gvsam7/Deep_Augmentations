@@ -66,7 +66,8 @@ class BagnetCustom32(nn.Module):
         x = self.downsamples(x)
         x = self.final_downsample(x)
         x = self.post_convs(x)
-        x = x.view(x.size(0), -1)
+        # x = x.view(x.size(0), -1)
+        x = x.reshape(x.shape[0], -1)
         out = self.fc(x)
         return out
 
@@ -92,7 +93,7 @@ class BagnetCustom96Thin(nn.Module):
         self.final_downsample = ConvPool(pool_filters[-1], pool_filters[-1], pool=input_ds)  # pool the rest
 
         dec_filters = [512, 512, 256, 128]
-        conv1_lambda = lambda nin, f: conv_layers(in_channel, f, 1)
+        conv1_lambda = lambda in_channel, f: conv_layers(in_channel, f, 1)
         self.post_convs = blocklist(conv1_lambda, pool_filters[-1], dec_filters)
         self.fc = nn.Linear(dec_filters[-1], num_classes)
 
