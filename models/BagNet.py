@@ -28,9 +28,7 @@ class ConvPool(nn.Module):
         self.pool = nn.MaxPool2d(pool)
 
     def forward(self, x):
-        x = self.conv(x),
-        x = self.pool(x)
-        return x
+        return self.pool(self.conv(x))
 
 
 def blocklist(cls, in_channel, filters):
