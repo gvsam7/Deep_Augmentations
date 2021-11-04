@@ -3,6 +3,7 @@ from torch import nn
 from models.ResNet import ResNet18, ResNet50, ResNet101, ResNet152
 from models.CNN import CNN4, CNN5, OldCNN3, OldCNN4, OldCNN5, CNN2, CAMCNN2, AlexNet
 from models.VGG import VGG11, VGG13, VGG16, VGG19
+from models.BagNet import BagnetCustom32, BagnetCustom96Thin
 from Utilities.Identity import Identity
 
 
@@ -63,6 +64,10 @@ def networks(architecture, in_channels, num_classes, pretrained, requires_grad, 
             print(f"Fully trained from SSRP data, Pretrained={pretrained}")
     elif architecture == 'vgg19':
         model = VGG19(in_channels, num_classes)
+    elif architecture == 'BagnetCustom32':
+        model = BagnetCustom32(in_channels, num_classes, input_size=32)
+    elif architecture == 'BagnetCustom96Thin':
+        model = BagnetCustom96Thin(in_channels, num_classes, input_size=96)
     elif architecture == 'tlalexnet':
         model = torchvision.models.alexnet(pretrained=pretrained)
         if pretrained == 'True':

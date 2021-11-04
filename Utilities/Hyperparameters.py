@@ -25,6 +25,7 @@ def arguments():
                                                                     "tlvgg16=pretrain VGG16, vgg19=VGG19, alexnet=AlexNet"
                                                                     "resnet18=ResNet18, tlresnet18= pretrain ResNet18,"
                                                                     "resnet50=ResNet50, resnet101=ResNet101,"
-                                                                    "resnet152=ResNet=152, tlalexnet= pretrain AlexNet")
+                                                                    "resnet152=ResNet=152, tlalexnet= pretrain AlexNet,"
+                                                                    "BagnetCustom32, BagnetCustom96Thin")
 
     return parser.parse_args()

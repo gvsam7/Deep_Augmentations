@@ -91,7 +91,7 @@ def main():
         dataset = ImageFolder("Training_Data_2018_2014")
         in_channels = 3
     print(f"Dataset is {args.dataset}")
-    
+
     labels = dataset.classes
     num_classes = len(labels)
     y = dataset.targets
