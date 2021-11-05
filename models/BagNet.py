@@ -42,7 +42,40 @@ def blocklist(cls, in_channel, filters):
 
 class BagnetCustom32(nn.Module):
     def __init__(self, in_channel, num_classes, input_size):
+        # has receptive field size 17
+
         super().__init__()
+        enc_filters = [256, 512, 512]
+        self.pre_convs = nn.Sequential(
+            MLPBlock(in_channel, enc_filters[0], 5),  # rf: 5
+            ConvPool(enc_filters[0], enc_filters[0]),  # rf: 5
+            MLPBlock(enc_filters[0], enc_filters[1], 3),  # rf: 9
+        )
+        pool_filters = [1024, 1024]
+        self.downsamples = blocklist(ConvPool, enc_filters[-1], pool_filters)
+
+        num_downsamples = len(pool_filters) + 1
+        input_ds = int(input_size / (2 ** num_downsamples))
+        self.final_downsample = ConvPool(pool_filters[-1], pool_filters[-1], pool=input_ds)  # pool the rest
+
+        dec_filters = [512, 512, 256, 128]
+        conv1_lambda = lambda in_channel, f: conv_layers(in_channel, f, 1)
+        self.post_convs = blocklist(conv1_lambda, pool_filters[-1], dec_filters)
+        self.fc = nn.Linear(dec_filters[-1], num_classes)
+
+    def forward(self, x):
+        x = self.pre_convs(x)
+        x = self.downsamples(x)
+        x = self.final_downsample(x)
+        x = self.post_convs(x)
+        x = x.view(x.size(0), -1)
+        out = self.fc(x)
+        return out
+
+"""
+class BagnetCustom32(nn.Module):
+    def __init__(self, in_channel, num_classes, input_size):
+        super(BagnetCustom32, self).__init__()
         enc_filters = [256, 512, 512]
         self.pre_convs = nn.Sequential(
             MLPBlock(in_channel, enc_filters[0], 5),
@@ -66,11 +99,10 @@ class BagnetCustom32(nn.Module):
         x = self.downsamples(x)
         x = self.final_downsample(x)
         x = self.post_convs(x)
-        # x = x.view(x.size(0), -1)
-        x = x.reshape(x.shape[0], -1)
+        x = x.view(x.size(0), -1)
         out = self.fc(x)
         return out
-
+"""
 
 class BagnetCustom96Thin(nn.Module):
     def __init__(self, in_channel, num_classes, input_size):

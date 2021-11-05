@@ -49,7 +49,7 @@ class VGG(nn.Module):
             elif x == 'M':
                 layers += [nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))]
 
-        return nn.Sequential(*layers)
+        return nn.Sequential(*layers)  # unpacks all that is stored on the layers list
 
 
 def VGG11(in_channels=3, num_classes=10):
