@@ -1,6 +1,7 @@
 from torch import nn
 import torch.nn.functional as F
 # from Pool.MedianPool import MedianPool2d
+from Pool.SpatialPyramidPool import SPP
 
 
 class CNN4(nn.Module):
@@ -264,6 +265,43 @@ class OldCNN5(nn.Module):
     def forward(self, x):
         x = self.features(x)
         x = x.flatten(1)
+        x = self.classifier(x)
+        return x
+
+
+class SPPCNN(nn.Module):
+    def __init__(self, in_channels, num_classes=9, num_level=3, pool_type='max_pool'):
+        super(SPPCNN, self).__init__()
+        self.num_level = num_level
+        self.pool_type = pool_type
+        self.features = nn.Sequential(
+            nn.Conv2d(in_channels, 32, 3, 1, 1),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(2),
+            nn.Conv2d(32, 64, 3, 1, 1),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(2),
+            nn.Conv2d(64, 128, 3, 1, 1),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(2),
+            nn.Conv2d(128, 256, 3, 1, 1),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(2),
+            nn.Conv2d(256, 512, 3, 1, 1),
+            nn.ReLU(inplace=True)
+        )
+
+        self.pool = SPP(num_level)
+
+        self.classifier = nn.Sequential(
+            nn.Linear(7168, 512),
+            nn.ReLU(inplace=True),
+            nn.Linear(512, num_classes)
+        )
+
+    def forward(self, x):
+        x = self.features(x)
+        x = self.pool(x)
         x = self.classifier(x)
         return x
 

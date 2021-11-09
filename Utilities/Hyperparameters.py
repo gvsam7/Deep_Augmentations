@@ -23,9 +23,9 @@ def arguments():
     parser.add_argument("--architecture", default="cnn4", help="cnn2 = CNN2, cnn4=CNN4, cnn5=CNN5, vgg11=VGG11, vgg13=VGG13, oldcnn3=OldCNN3"
                                                                     "camcnn2 = CAMCNN2, oldcnn4=OldCNN4, oldcnn5=OldCNN5, vgg16=VGG16,"
                                                                     "tlvgg16=pretrain VGG16, vgg19=VGG19, alexnet=AlexNet"
-                                                                    "resnet18=ResNet18, tlresnet18= pretrain ResNet18,"
+                                                                    "resnet18=ResNet18, tlresnet18=pretrain ResNet18,"
                                                                     "resnet50=ResNet50, resnet101=ResNet101,"
-                                                                    "resnet152=ResNet=152, tlalexnet= pretrain AlexNet,"
-                                                                    "BagnetCustom32, BagnetCustom96Thin")
+                                                                    "resnet152=ResNet=152, tlalexnet=pretrain AlexNet,"
+                                                                    "sppcnn=SSPCNN, BagnetCustom32, BagnetCustom96Thin")
 
     return parser.parse_args()
