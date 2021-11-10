@@ -5,6 +5,7 @@ from models.CNN import CNN4, CNN5, OldCNN3, OldCNN4, OldCNN5, CNN2, CAMCNN2, Ale
 from models.VGG import VGG11, VGG13, VGG16, VGG19
 from models.BagNet import BagnetCustom32, BagnetCustom96Thin
 from Utilities.Identity import Identity
+from models.GaborCNN import GaborCNN
 
 
 def networks(architecture, in_channels, num_classes, pretrained, requires_grad, global_pooling):
@@ -20,6 +21,8 @@ def networks(architecture, in_channels, num_classes, pretrained, requires_grad, 
         model = OldCNN5(in_channels, num_classes)
     elif architecture == 'sppcnn':
         model = SPPCNN(in_channels, num_classes)
+    elif architecture == 'gaborcnn':
+        model = GaborCNN(in_channels, num_classes)
     elif architecture == 'camcnn2':
         model = CAMCNN2(in_channels, num_classes)
     elif architecture == 'alexnet':
