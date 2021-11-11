@@ -298,9 +298,7 @@ class SPPCNN(nn.Module):
         self.pool = SPP(num_level)
 
         self.classifier = nn.Sequential(
-            nn.Linear(7168, 512),
-            nn.ReLU(inplace=True),
-            nn.Linear(512, num_classes)
+            nn.Linear(7168, num_classes)
         )
 
     def forward(self, x):

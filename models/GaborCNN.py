@@ -28,9 +28,7 @@ class GaborCNN(nn.Module):
         )
 
         self.classifier = nn.Sequential(
-            nn.Linear(12800, 512),
-            nn.ReLU(inplace=True),
-            nn.Linear(512, num_classes)
+            nn.Linear(12800, num_classes)
         )
 
     def forward(self, x):
