@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from Pool.MedianPool import MedianPool2d
+# from Pool.MedianPool import MedianPool2d
 
 
 class MixPool(nn.Module):
