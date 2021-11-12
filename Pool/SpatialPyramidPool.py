@@ -5,7 +5,7 @@ import torch.nn.functional as F
 
 
 class SPP(nn.Module):
-    def __init__(self, num_level, pool_type='max_pool'):
+    def __init__(self, num_level, pool_type='fractional_pool'):
         super(SPP, self).__init__()
         self.num_level = num_level
         self.pool_type = pool_type
@@ -21,6 +21,8 @@ class SPP(nn.Module):
             if self.pool_type == 'max_pool':
                 tensor = (F.max_pool2d(x, kernel_size=kernel_size, stride=stride, padding=padding)).view(N, -1)
                 # tensor = nn.MaxPool2d(x, kernel_size=kernel_size, stride=stride, padding=padding)
+            elif self.pool_type == 'fractional_pool':
+                tensor = (F.fractional_max_pool2d(x, kernel_size=kernel_size, output_size=(1, 1))).view(N, -1)
             else:
                 tensor = (F.avg_pool2d(x, kernel_size=kernel_size, stride=stride, padding=padding)).view(N, -1)
                 # tensor = nn.AvgPool2d(x, kernel_size=kernel_size, stride=stride, padding=padding)

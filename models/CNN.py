@@ -270,7 +270,7 @@ class OldCNN5(nn.Module):
 
 
 class SPPCNN(nn.Module):
-    def __init__(self, in_channels, num_classes=9, num_level=3, pool_type='max_pool'):
+    def __init__(self, in_channels, num_classes=9, num_level=3, pool_type='fractional_pool'):
         super(SPPCNN, self).__init__()
         self.num_level = num_level
         self.pool_type = pool_type
@@ -298,7 +298,8 @@ class SPPCNN(nn.Module):
         self.pool = SPP(num_level)
 
         self.classifier = nn.Sequential(
-            nn.Linear(7168, num_classes)
+            # nn.Linear(7168, num_classes)  # maxpool
+            nn.Linear(1536, num_classes)  # global pool
         )
 
     def forward(self, x):
