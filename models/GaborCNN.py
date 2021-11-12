@@ -23,16 +23,18 @@ class GaborCNN(nn.Module):
             nn.MaxPool2d(2),
             nn.BatchNorm2d(256),
             nn.Conv2d(256, 512, (3, 3)),
-            nn.ReLU(inplace=True),
-            nn.MaxPool2d(2)
+            nn.ReLU(inplace=True)
         )
 
+        self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
+
         self.classifier = nn.Sequential(
-            nn.Linear(12800, num_classes)
+            nn.Linear(512, num_classes)
         )
 
     def forward(self, x):
         x = self.features(x)
+        x = self.avgpool(x)
         x = x.flatten(1)
         x = self.classifier(x)
         return x
