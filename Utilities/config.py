@@ -8,9 +8,9 @@ def train_transforms(width, height, augmentation):
             [
                 A.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5], max_pixel_value=255.0),
                 A.Resize(width, height, p=1.),
-                A.Rotate(limit=45, p=1.), # 0.9
-                A.HorizontalFlip(p=1.), # 0.5
-                A.VerticalFlip(p=1.), # 0.1
+                A.Rotate(limit=45, p=0.9),
+                A.HorizontalFlip(p=0.5),
+                A.VerticalFlip(p=0.1),
                 ToTensorV2(),
                 ]
             )
