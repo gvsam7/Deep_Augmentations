@@ -4,10 +4,11 @@ import torch.nn.functional as F
 
 
 class GatedPool_l(nn.Module):
-    def __init__(self, kernel_size, stride, padding, dilation):
+    def __init__(self, kernel_size, stride, padding, dilation=1):
         super(GatedPool_l, self).__init__()
         self.mask = nn.Parameter(torch.rand(1, 1, kernel_size, kernel_size))
         self.kernel_size = kernel_size
+        self.stride = stride
         self.padding = padding
         self.dilation = dilation
         self.return_indices = False
@@ -27,13 +28,12 @@ class GatedPool_l(nn.Module):
 
         output = xc[0]
 
-        # print output
         for i in xc[1:]:
             output = torch.cat((output, i), 1)
 
-        alpha = F.sigmoid(output)
+        alpha = torch.sigmoid(output)
 
-        x = alpha * F.max_pool2d(x, self.kernel_size, self.stride, self.padding, self.dilation) + (1-alpha)* \
+        x = alpha * F.max_pool2d(x, self.kernel_size, self.stride, self.padding, self.dilation) + (1-alpha) * \
             F.avg_pool2d(x, self.kernel_size, self.stride, self.padding)
         return x
 
@@ -42,8 +42,7 @@ class GatedPool_c(nn.Module):
     def __init__(self, in_channels, kernel_size, stride, padding=0, dilation=1):
         super(GatedPool_c, self).__init__()
         out_channel = in_channels
-        self.mask = nn.Parameter(
-            torch.randn(in_channels, out_channel, kernel_size, kernel_size))  # nn.Parameter is special Variable
+        self.mask = nn.Parameter(torch.randn(in_channels, out_channel, kernel_size, kernel_size))
         self.kernel_size = kernel_size
         self.stride = stride
         self.padding = padding
@@ -54,8 +53,8 @@ class GatedPool_c(nn.Module):
         out_size = list(x.size())[2] // 2
         bs = list(x.size())[0]
         mask_c = F.conv2d(x, self.mask, stride=self.stride)
-        alpha = F.sigmoid(mask_c)
-        # print(alpha)
+        alpha = torch.sigmoid(mask_c)
+
         x = alpha * F.max_pool2d(x, self.kernel_size, self.stride, self.padding, self.dilation) + (1 - alpha) * \
             F.avg_pool2d(x, self.kernel_size, self.stride, self.padding)
         return x
