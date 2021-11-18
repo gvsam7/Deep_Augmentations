@@ -38,13 +38,20 @@ class GaborCNN(nn.Module):
             # nn.MaxPool2d(2),
             nn.BatchNorm2d(256),
             nn.Conv2d(256, 512, (3, 3)),
+            nn.ReLU(inplace=True),
+            # GatedPool_l(kernel_size=2, stride=2, padding=0),
+            GatedPool_c(in_channels=512, kernel_size=2, stride=2, padding=0),
+            # MixPool(2, 2, 0, 0.2),
+            # nn.MaxPool2d(2),
+            nn.BatchNorm2d(512),
+            nn.Conv2d(512, 1024, (3, 3)),
             nn.ReLU(inplace=True)
         )
 
         self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
 
         self.classifier = nn.Sequential(
-            nn.Linear(512, num_classes)
+            nn.Linear(1024, num_classes)
         )
 
     def forward(self, x):
