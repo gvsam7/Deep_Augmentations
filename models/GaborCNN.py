@@ -15,6 +15,7 @@ class GaborCNN(nn.Module):
             GatedPool_c(in_channels=32, kernel_size=2, stride=2, padding=0),
             # MixPool(2, 2, 0, 1),
             # nn.MaxPool2d(2),
+            nn.BatchNorm2d(32),
             nn.Conv2d(32, 64, (3, 3)),
             nn.ReLU(inplace=True),
             # GatedPool_l(kernel_size=2, stride=2, padding=0),
