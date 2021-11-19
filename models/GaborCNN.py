@@ -9,14 +9,14 @@ class GaborCNN(nn.Module):
     def __init__(self, in_channels, num_classes):
         super(GaborCNN, self).__init__()
         self.features = nn.Sequential(
-            GaborConv2d(in_channels, out_channels=16, kernel_size=(15, 15)),
+            GaborConv2d(in_channels, out_channels=32, kernel_size=(15, 15)),
             nn.ReLU(inplace=True),
             # GatedPool_l(kernel_size=2, stride=2, padding=0),
-            GatedPool_c(in_channels=16, kernel_size=2, stride=2, padding=0),
+            GatedPool_c(in_channels=32, kernel_size=2, stride=2, padding=0),
             # MixPool(2, 2, 0, 1),
             # nn.MaxPool2d(2),
-            nn.BatchNorm2d(16),
-            nn.Conv2d(16, 32, (3, 3)),
+            nn.BatchNorm2d(32),
+            nn.Conv2d(32, 32, (3, 3)),
             nn.ReLU(inplace=True),
             # GatedPool_l(kernel_size=2, stride=2, padding=0),
             GatedPool_c(in_channels=32, kernel_size=2, stride=2, padding=0),
@@ -51,6 +51,8 @@ class GaborCNN(nn.Module):
         self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
 
         self.classifier = nn.Sequential(
+            nn.Linear(512, 512),
+            nn.ReLU(inplace=True),
             nn.Linear(512, num_classes)
         )
 
