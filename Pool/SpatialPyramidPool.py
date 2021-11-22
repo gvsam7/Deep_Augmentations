@@ -5,7 +5,7 @@ import torch.nn.functional as F
 
 
 class SPP(nn.Module):
-    def __init__(self, num_level, pool_type='fractional_pool'):
+    def __init__(self, num_level, pool_type='average_pool'):
         super(SPP, self).__init__()
         self.num_level = num_level
         self.pool_type = pool_type
