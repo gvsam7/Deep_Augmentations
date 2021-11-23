@@ -42,11 +42,11 @@ class GaborCNN(nn.Module):
             nn.ReLU(inplace=True)
         )
 
-        self.avgpool = SPP(num_level)
-        # self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
+        # self.avgpool = SPP(num_level)
+        self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
 
         self.classifier = nn.Sequential(
-           nn.Linear(7168, num_classes)
+           nn.Linear(512, num_classes)
         )
 
     def forward(self, x):
