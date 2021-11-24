@@ -53,8 +53,8 @@ class MixPool(nn.Module):
 
     def forward(self, x):
         x = self.alpha * F.max_pool2d(x, self.kernel_size, self.stride, self.padding) + (1 - self.alpha) * \
-            median_pool_2d(x, self.kernel_size, self.stride, self.padding)
-            # F.avg_pool2d(x, self.kernel_size, self.stride, self.padding)
+            F.avg_pool2d(x, self.kernel_size, self.stride, self.padding)
+            # median_pool_2d(x, self.kernel_size, self.stride, self.padding)
             # MedianPool2d(x, self.kernel_size, self.stride, self.padding)
         return x
 
