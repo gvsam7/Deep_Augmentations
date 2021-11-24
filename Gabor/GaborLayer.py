@@ -33,7 +33,7 @@ class GaborConv2d(nn.Module):
         self.freq = Parameter(
             (math.pi / 2)
             * math.sqrt(2)
-            ** torch.randint(0, 5, (out_channels, in_channels)).type(torch.Tensor),
+            ** (-torch.randint(0, 5, (out_channels, in_channels))).type(torch.Tensor),
             requires_grad=True
         )
 
