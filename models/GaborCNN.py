@@ -10,7 +10,7 @@ class GaborCNN(nn.Module):
     def __init__(self, in_channels, num_classes, num_level=3, pool_type='average_pool'):
         super(GaborCNN, self).__init__()
         self.features = nn.Sequential(
-            GaborConv2d(in_channels, out_channels=32, kernel_size=(11, 11)),
+            GaborConv2d(in_channels, out_channels=32, kernel_size=(3, 3)),
             nn.ReLU(inplace=True),
             # GatedPool_l(kernel_size=2, stride=2, padding=0),
             # GatedPool_c(in_channels=32, kernel_size=2, stride=2, padding=0),
