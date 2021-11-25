@@ -16,7 +16,7 @@ validation: 20%), and test: 20% data.
 
 *Architectures:* 4, and 5 CNN, ResNet18, ResNet50, ResNet101, ResNet152, VGG11, VGG13, VGG16, VGG19, AlexNet.
 
-*Images:* compressed 50x50, 100x100, and 226x226 pixel images. Note that 50x50 was too small for the 5 CNNs.
+*Images:* compressed 50x50, 100x100, and 256x256 pixel images. Note that 50x50 was too small for the 5 CNNs.
 
 *Test Procedure:* 5 runs for each architecture for each of the compressed data. Then plot the Interquartile range.
 
