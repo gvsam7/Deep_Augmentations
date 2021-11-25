@@ -10,11 +10,17 @@ For this project, a classifier that classifies scenes from aerial images was des
 *Data:*  Sussex Sustainability Research Programme (SSRP) dataset.
 Stratification method was used to split the data to train/validate: 80% (out of which train: 80% and
 validation: 20%), and test: 20% data.
+
 *Data texture bias:* Research techniques that take advantage texture bias in aerial/sattelite images.
+
 *Architectures:* 4, and 5 CNN, ResNet18, ResNet50, ResNet101, ResNet152, VGG11, VGG13, VGG16, VGG19, AlexNet.
+
 *Images:* compressed 50x50, 100x100, and 226x226 pixel images. Note that 50x50 was too small for the 5 CNNs.
+
 *Test Procedure:* 5 runs for each architecture for each of the compressed data. Then plot the Interquartile range.
+
 *Plots:* Average GPU usage per architecture, Interquartile, F1 Score heatmap for each class, Confusion Matrix, PCA and t-SNE plots, and most confident incorrect predictions.
+
 *Data augmentation techniques tested:* Cutout, Mixup, and CutMix, Pooling (Global Pool, Mix Pool, Gated Mix Pool).
 
 ![alt text](https://github.com/gvsam7/Deep_Augmentations/blob/main/Images/SSRP_Classifier.PNG)
