@@ -11,7 +11,7 @@ For this project, a classifier that classifies scenes from aerial images was des
 Stratification method was used to split the data to train/validate: 80% (out of which train: 80% and
 validation: 20%), and test: 20% data.
 
-*Data texture bias:* Research techniques that take advantage texture bias in aerial/satelite images.
+*Data texture bias:* Research techniques that take advantage texture bias in aerial/satellite images.
 
 *Architectures:* 4, and 5 CNN, ResNet18, ResNet50, ResNet101, ResNet152, VGG11, VGG13, VGG16, VGG19, AlexNet.
 
