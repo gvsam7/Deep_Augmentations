@@ -14,6 +14,8 @@ Plots: Average GPU usage per architecture, Interquartile, and for each architect
 for each class.
 Data augmentation techniques tested: Cutout, mixup, CutMix and AugMix
 
+![alt text](https://github.com/gvsam7/Deep_Augmentations/blob/main/Images/SSRP_Classifier.PNG)
+
 
 ## Papers
 - [Improved Regularization of Convolutional Neural Networks with Cutout](https://arxiv.org/abs/1708.04552)
