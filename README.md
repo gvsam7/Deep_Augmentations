@@ -6,6 +6,7 @@ This project is part of the British academy [Satellite/Aerial Image Segmentation
 The aim is to apply deep learning techniques, to map peri-urban agriculture in Ghaziabad India; and research ways of integrating multiple types of data through a web-based mapping and visualisation tool. Thus, support research and stakeholder engagement to understand the trade-offs between Sustainable Development goals (SDGs) in urbanising contexts.
 For this project, a classifier that classifies scenes from aerial images was designed. The architecture is comprised of Convolutional Neural Networks. The dataset is comprised of satellite/aerial images depicting land scenes from Ghaziabad India. Classifier predictions are imported to the web application for visualisation.
 
+![alt text](https://github.com/gvsam7/Deep_Augmentations/blob/main/Images/SSRP_Classifier.PNG)
 
 *Data:*  Sussex Sustainability Research Programme (SSRP) dataset.
 Stratification method was used to split the data to train/validate: 80% (out of which train: 80% and
@@ -22,9 +23,6 @@ validation: 20%), and test: 20% data.
 *Plots:* Average GPU usage per architecture, Interquartile, F1 Score heatmap for each class, Confusion Matrix, PCA and t-SNE plots, and most confident incorrect predictions.
 
 *Data augmentation techniques tested:* Cutout, Mixup, and CutMix, Pooling (Global Pool, Mix Pool, Gated Mix Pool).
-
-![alt text](https://github.com/gvsam7/Deep_Augmentations/blob/main/Images/SSRP_Classifier.PNG)
-
 
 ## Papers
 - [Improved Regularization of Convolutional Neural Networks with Cutout](https://arxiv.org/abs/1708.04552)
