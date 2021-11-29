@@ -1,7 +1,8 @@
 import torchvision
 from torch import nn
 from models.ResNet import ResNet18, ResNet50, ResNet101, ResNet152
-from models.CNN import CNN4, CNN5, OldCNN3, OldCNN4, OldCNN5, CNN2, CAMCNN2, AlexNet, SPPCNN
+from models.CNN import CNN4, CNN5, OldCNN3, OldCNN4, OldCNN5, CNN2, CAMCNN2, SPPCNN
+from models.AlexNet import AlexNet
 from models.VGG import VGG11, VGG13, VGG16, VGG19
 from models.BagNet import BagnetCustom32, BagnetCustom96Thin
 from Utilities.Identity import Identity
