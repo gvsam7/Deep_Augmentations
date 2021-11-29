@@ -87,51 +87,96 @@ def main():
     elif args.dataset == 'sobel':
         dataset = ImageFolder("Sobel_Training_Data_2018_2014")
         in_channels = 1
+    elif args.dataset == 'wet':
+        traindataset = ImageFolder("Data_WetSeason")
+        testdataset = ImageFolder("Data_DrySeason")
+        in_channels = 3
+    elif args.dataset == 'dry':
+        traindataset = ImageFolder("Data_DrySeason")
+        testdataset = ImageFolder("Data_WetSeason")
+        in_channels = 3
     else:
         dataset = ImageFolder("Training_Data_2018_2014")
         in_channels = 3
     print(f"Dataset is {args.dataset}")
 
-    labels = dataset.classes
-    num_classes = len(labels)
-    y = dataset.targets
-    dataset_len = len(dataset)
+    if args.dataset == 'wet' or args.dataset == 'dry':
+        labels = traindataset.classes
+        num_classes = len(labels)
+        y = traindataset.targets
+        dataset_len = len(traindataset)
 
-    X_trainval, X_test, y_trainval, y_test = train_test_split(np.arange(dataset_len), y, test_size=0.2, stratify=y,
-                                                              random_state=args.random_state, shuffle=True)
-    X2 = X_trainval
-    y2 = y_trainval
-    X_train, X_val, y_train, y_val = train_test_split(X2, y2, test_size=0.2, stratify=y2,
-                                                      random_state=args.random_state, shuffle=True)
-    train_ds = Subset(dataset, X_train)
-    val_ds = Subset(dataset, X_val)
-    test_ds = Subset(dataset, X_test)
-    filepaths = np.array(tuple(zip(*dataset.imgs))[0])
-    train_filepaths = filepaths[X_train]
-    val_filepaths = filepaths[X_val]
-    test_filepaths = filepaths[X_test]
+        X_train, X_val, y_train, y_val = train_test_split(np.arange(dataset_len), y, test_size=0.2, stratify=y,
+                                                          random_state=args.random_state, shuffle=True)
+        train_ds = Subset(traindataset, X_train)
+        val_ds = Subset(traindataset, X_val)
+        test_ds = testdataset
+        filepaths = np.array(tuple(zip(*traindataset.imgs))[0])
+        train_filepaths = filepaths[X_train]
+        val_filepaths = filepaths[X_val]
 
-    # Create train, validation and test datasets
-    train_dataset = DataRetrieve(
-        train_ds,
-        transforms=train_transforms(args.width, args.height, args.Augmentation),
-        augmentations=args.augmentation
-    )
+        # Create train, validation and test datasets
+        train_dataset = DataRetrieve(
+            train_ds,
+            transforms=train_transforms(args.width, args.height, args.Augmentation),
+            augmentations=args.augmentation
+        )
 
-    val_dataset = DataRetrieve(
-        val_ds,
-        transforms=val_transforms(args.width, args.height)
-    )
+        val_dataset = DataRetrieve(
+            val_ds,
+            transforms=val_transforms(args.width, args.height)
+        )
 
-    test_dataset = DataRetrieve(
-        test_ds,
-        transforms=test_transforms(args.width, args.height)
-    )
+        test_dataset = DataRetrieve(
+            test_ds,
+            transforms=test_transforms(args.width, args.height)
+        )
 
-    # Create train, validation and test dataloaders
-    train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True)
-    val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False)
-    prediction_loader = DataLoader(test_dataset, batch_size=args.batch_size)
+        # Create train, validation and test dataloaders
+        train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True)
+        val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False)
+        prediction_loader = DataLoader(test_dataset, batch_size=args.batch_size)
+    else:
+        labels = dataset.classes
+        num_classes = len(labels)
+        y = dataset.targets
+        dataset_len = len(dataset)
+
+        X_trainval, X_test, y_trainval, y_test = train_test_split(np.arange(dataset_len), y, test_size=0.2, stratify=y,
+                                                                  random_state=args.random_state, shuffle=True)
+        X2 = X_trainval
+        y2 = y_trainval
+        X_train, X_val, y_train, y_val = train_test_split(X2, y2, test_size=0.2, stratify=y2,
+                                                          random_state=args.random_state, shuffle=True)
+        train_ds = Subset(dataset, X_train)
+        val_ds = Subset(dataset, X_val)
+        test_ds = Subset(dataset, X_test)
+        filepaths = np.array(tuple(zip(*dataset.imgs))[0])
+        train_filepaths = filepaths[X_train]
+        val_filepaths = filepaths[X_val]
+        test_filepaths = filepaths[X_test]
+
+        # Create train, validation and test datasets
+        train_dataset = DataRetrieve(
+            train_ds,
+            transforms=train_transforms(args.width, args.height, args.Augmentation),
+            augmentations=args.augmentation
+        )
+
+        val_dataset = DataRetrieve(
+            val_ds,
+            transforms=val_transforms(args.width, args.height)
+        )
+
+        test_dataset = DataRetrieve(
+            test_ds,
+            transforms=test_transforms(args.width, args.height)
+        )
+
+        # Create train, validation and test dataloaders
+        train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True)
+        val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False)
+        prediction_loader = DataLoader(test_dataset, batch_size=args.batch_size)
 
     # Network
     model = networks(architecture=args.architecture, in_channels=args.in_channels, num_classes=num_classes,
