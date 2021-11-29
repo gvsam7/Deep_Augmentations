@@ -26,5 +26,6 @@ validation: 20%), and test: 20% data.
 
 ## Papers
 - [Improved Regularization of Convolutional Neural Networks with Cutout](https://arxiv.org/abs/1708.04552)
-- [mixup: Beyond Empirical Risk Minimization](https://arxiv.org/abs/1710.09412)
+- [Mixup: Beyond Empirical Risk Minimization](https://arxiv.org/abs/1710.09412)
 - [CutMix: Regularization Strategy to Train Strong Classifiers with Localizable Features](https://arxiv.org/abs/1905.04899)
+- [Generalizing Pooling Functions in Convolutional Neural Networks: Mixed, Gated, and Tree](https://arxiv.org/abs/1509.08985)
