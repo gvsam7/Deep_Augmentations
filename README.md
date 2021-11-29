@@ -22,7 +22,7 @@ validation: 20%), and test: 20% data.
 
 *Plots:* Average GPU usage per architecture, Interquartile, F1 Score heatmap for each class, Confusion Matrix, PCA and t-SNE plots, and most confident incorrect predictions.
 
-*Data augmentation techniques tested:* Cutout, Mixup, and CutMix, Pooling (Global Pool, Mix Pool, Gated Mix Pool).
+*Data augmentations:* Geometric Transformations, Cutout, Mixup, and CutMix, Pooling (Global Pool, Mix Pool, Gated Mix Pool).
 
 ## Papers
 - [Improved Regularization of Convolutional Neural Networks with Cutout](https://arxiv.org/abs/1708.04552)

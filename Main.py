@@ -1,17 +1,27 @@
 """
 Author: Georgios Voulgaris
 Date: 25/05/2021
-Description: Test platform to validate the impact on model robustness of various data augmentation techniques on various
-            Deep architectures using SSRP dataset. The dataset is comprised of aerial images from Ghaziabad India.
-            Stratification method was used to split the data to train/validate: 80% (out of which train: 80% and
-            validation: 20%), and test: 20% data.
-            Architectures: 4, and 5 CNN, ResNet18, ResNet50, ResNet101, ResNet152, VGG11, VGG13, VGG16, VGG19.
-            Images: compressed 50x50, 100x100, and 226x226 pixel images. Note that 50x50 was too small for the 5 CNNs.
-            Test Procedure: 5 runs for each architecture for each of the compressed data. That is 5x50x50 for each
-            architecture. Then the Interquartile range, using the median was plotted.
+Description: Apply deep learning techniques, to map peri-urban agriculture in Ghaziabad India; and research ways of
+            integrating multiple types of data through a web-based mapping and visualisation tool. Classify scenes from
+            aerial images. The dataset is comprised of satellite/aerial images depicting land scenes from Ghaziabad
+            India. Classifier predictions are imported to the web application for visualisation.
+
+            Data: Sussex Sustainability Research Programme (SSRP) dataset. Stratification method was used to split the
+            data to train/validate: 80% (out of which train: 80% and validation: 20%), and test: 20% data.
+
+            Data texture bias: Research techniques that take advantage texture bias in aerial/satellite images.
+            Architectures: 4, and 5 CNN, ResNet18, ResNet50, ResNet101, ResNet152, VGG11, VGG13, VGG16, VGG19, AlexNet.
+
+            Images: compressed 50x50, 100x100, and 256x256 pixel images. Note that 50x50 was too small for the 5 CNNs.
+
+            Test Procedure: 5 runs for each architecture for each of the compressed data. Then plot the Interquartile
+            range.
+
             Plots: Average GPU usage per architecture, Interquartile, and for each architecture an F1 Score heatmap
             for each class.
-            Data augmentation techniques tested: Cutout, mixup, CutMix and AugMix
+
+            Data augmentation: Geometric Transformations, Cutout, Mixup, and CutMix, Pooling (Global Pool, Mix Pool,
+            Gated Mix Pool).
 """
 
 # Imports
