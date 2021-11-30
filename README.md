@@ -4,7 +4,9 @@
 
 This project is part of the British academy [Satellite/Aerial Image Segmentation](https://wearepal.ai/projects/ssrp) project. 
 The aim is to apply deep learning techniques, to map peri-urban agriculture in Ghaziabad India; and research ways of integrating multiple types of data through a web-based mapping and visualisation tool. Thus, support research and stakeholder engagement to understand the trade-offs between Sustainable Development goals (SDGs) in urbanising contexts.
-For this project, a classifier that classifies scenes from aerial images was designed. The architecture is comprised of Convolutional Neural Networks. The dataset is comprised of satellite/aerial images depicting land scenes from Ghaziabad India. Classifier predictions are imported to the web application for visualisation. Moreover, investigate Deep Learning model robustness to domain shifts such as year/season data sources.
+For this project, a classifier that classifies scenes from aerial images was designed. The architecture is comprised of Convolutional Neural Networks. The dataset is comprised of satellite/aerial images depicting land scenes from Ghaziabad India. Classifier predictions are imported to the web application for visualisation. 
+
+Moreover, conducting an investigation regarding Deep Learning model robustness to domain shifts such as year/season data sources.
 
 ![alt text](https://github.com/gvsam7/Deep_Augmentations/blob/main/Images/SSRP_Classifier.PNG)
 
