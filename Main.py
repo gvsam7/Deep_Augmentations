@@ -114,6 +114,7 @@ def main():
         labels = traindataset.classes
         num_classes = len(labels)
         y = traindataset.targets
+        y_test = testdataset.targets
         dataset_len = len(traindataset)
 
         X_train, X_val, y_train, y_val = train_test_split(np.arange(dataset_len), y, test_size=0.2, stratify=y,
