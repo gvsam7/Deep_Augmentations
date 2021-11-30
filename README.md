@@ -31,3 +31,6 @@ validation: 20%), and test: 20% data.
 - [Mixup: Beyond Empirical Risk Minimization](https://arxiv.org/abs/1710.09412)
 - [CutMix: Regularization Strategy to Train Strong Classifiers with Localizable Features](https://arxiv.org/abs/1905.04899)
 - [Generalizing Pooling Functions in Convolutional Neural Networks: Mixed, Gated, and Tree](https://arxiv.org/abs/1509.08985)
+- [ImageNet-Trained CNNs are Biased Towards Texture; Increasing Shape Bias Improves Accuracy and Robustness](https://arxiv.org/abs/1811.12231)
+- [The Origins and Prevalence of Texture Bias in Convolutional Neural Networks](https://arxiv.org/abs/1911.09071)
+- [Combining Diverse Feature Priors](https://arxiv.org/abs/2110.08220)
