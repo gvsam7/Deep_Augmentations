@@ -302,7 +302,7 @@ def main():
     incorrect_examples.sort(reverse=True, key=lambda x: torch.max(x[2], dim=0).values)
 
     n_images = 48
-    classes = ['Agriculture', 'Barren_Land', 'Brick_Kilns', 'Forest_Orchard', 'Industry', 'Roads', 'Urban',
+    classes = ['Agriculture', 'Barren_Land', 'Brick_Kilns', 'Forest_Orchard', 'Industry', 'Urban',
                'Urban_Green_Space', 'Water']
     plot_most_incorrect(incorrect_examples, classes, n_images)
     wandb.save('Most_Conf_Incorrect_Pred.png')
