@@ -91,12 +91,24 @@ def main():
     if args.dataset == "bw":
         dataset = ImageFolder("BW_Training_Data_2018_2014")
         in_channels = 1
+    elif args.dataset == 'bw_wet':
+        traindataset = ImageFolder("BWData_WetSeason")
+        testdataset = ImageFolder("Data_DrySeason")
+        in_channels = 3
     elif args.dataset == "edge":
         dataset = ImageFolder("Edge_Training_Data_2018_2014")
         in_channels = 1
+    elif args.dataset == "edge_wet":
+        traindataset = ImageFolder("EdgeData_WetSeason")
+        testdataset = ImageFolder("Data_DrySeason")
+        in_channels = 3
     elif args.dataset == 'sobel':
         dataset = ImageFolder("Sobel_Training_Data_2018_2014")
         in_channels = 1
+    elif args.dataset == "sobel_wet":
+        traindataset = ImageFolder("SobelData_WetSeason")
+        testdataset = ImageFolder("Data_DrySeason")
+        in_channels = 3
     elif args.dataset == 'wet':
         traindataset = ImageFolder("Data_WetSeason")
         testdataset = ImageFolder("Data_DrySeason")
@@ -110,7 +122,7 @@ def main():
         in_channels = 3
     print(f"Dataset is {args.dataset}")
 
-    if args.dataset == 'wet' or args.dataset == 'dry':
+    if args.dataset == 'wet' or args.dataset == 'dry' or args.dataset == 'bw_wet' or args.dataset == 'edge_wet' or args.dataset == 'sobel_wet':
         labels = traindataset.classes
         num_classes = len(labels)
         y = traindataset.targets
