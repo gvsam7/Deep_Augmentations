@@ -93,7 +93,7 @@ def main():
         in_channels = 1
     elif args.dataset == 'bw_wet':
         traindataset = ImageFolder("BWData_WetSeason")
-        testdataset = ImageFolder("Data_DrySeason")
+        testdataset = ImageFolder("BWData_DrySeason")
         in_channels = 3
     elif args.dataset == "edge":
         dataset = ImageFolder("Edge_Training_Data_2018_2014")
