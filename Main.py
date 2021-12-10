@@ -107,7 +107,7 @@ def main():
         in_channels = 1
     elif args.dataset == "sobel_wet":
         traindataset = ImageFolder("SobelData_WetSeason")
-        testdataset = ImageFolder("Data_DrySeason")
+        testdataset = ImageFolder("SobelData_DrySeason")
         in_channels = 3
     elif args.dataset == 'wet':
         traindataset = ImageFolder("Data_WetSeason")
