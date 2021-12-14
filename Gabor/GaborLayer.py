@@ -99,7 +99,7 @@ class GaborConv2d(nn.Module):
                 psi = self.psi[i, j].expand_as(self.y)
 
                 rotx = self.x * torch.cos(theta) + self.y * torch.sin(theta)
-                roty = -self.y * torch.sin(theta) + self.y * torch.cos(theta)
+                roty = -self.x * torch.sin(theta) + self.y * torch.cos(theta)
 
                 g = torch.exp(
                     -0.5 * ((rotx ** 2 + roty ** 2) / (sigma + self.delta) ** 2)
