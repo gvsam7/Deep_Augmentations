@@ -26,10 +26,8 @@ class GaborConv2d(nn.Module):
         # Prevents dividing by zero
         self.delta = 1e-3
 
-        # freq, theta, sigma are set up according to S. Meshgini,
-        # A. Aghagolzadeh and H. Seyedarabi, "Face recognition using
-        # Gabor filter bank, kernel principal component analysis
-        # and support vector machine"
+        # freq, theta, sigma are set up according to S. Meshgini, A. Aghagolzadeh and H. Seyedarabi, "Face recognition
+        # using Gabor filter bank, kernel principal component analysis and support vector machine"
         self.freq = Parameter(
             (math.pi / 2)
             * math.sqrt(2)
