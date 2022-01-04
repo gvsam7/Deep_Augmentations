@@ -27,8 +27,8 @@ validation: 20%), and test: 20% data.
 *Data augmentations:* Geometric Transformations, Cutout, Mixup, and CutMix, Pooling (Global Pool, Mix Pool, Gated Mix Pool).
 
 ## Google Colab
-- [CNN5 Classification Activation Map (CAM)](https://colab.research.google.com/drive/1jICBINwqq2AC9N5vtme7UfkJHTxK8yIR]
-- [GaborCNN Classification Activation Map (CAM)](https://colab.research.google.com/drive/1QX8Egvzb4NTzcDK9qPkiMeq8p9eEc6sr]
+- [CNN5 Classification Activation Map (CAM)](https://colab.research.google.com/drive/1jICBINwqq2AC9N5vtme7UfkJHTxK8yIR)
+- [GaborCNN Classification Activation Map (CAM)](https://colab.research.google.com/drive/1QX8Egvzb4NTzcDK9qPkiMeq8p9eEc6sr
 
 ## Papers
 - [Improved Regularization of Convolutional Neural Networks with Cutout](https://arxiv.org/abs/1708.04552)
