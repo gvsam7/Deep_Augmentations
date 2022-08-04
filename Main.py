@@ -129,6 +129,10 @@ def main():
         traindataset = ImageFolder("Data_DrySeason")
         testdataset = ImageFolder("Data_WetSeason")
         in_channels = 3
+    elif args.dataset == 'bwsobel_dry':
+        traindataset = ImageFolder("BWSobelData_DrySeason")
+        testdataset = ImageFolder("Data_WetSeason")
+        in_channels = 3
     else:
         dataset = ImageFolder("Training_Data_2018_2014")
         in_channels = 3
