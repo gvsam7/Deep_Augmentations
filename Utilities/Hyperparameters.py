@@ -28,7 +28,8 @@ def arguments():
                                                                     "resnet50=ResNet50, resnet101=ResNet101,"
                                                                     "resnet152=ResNet=152, tlalexnet=pretrain AlexNet,"
                                                                     "sppcnn=SSPCNN, BagnetCustom32, BagnetCustom96Thin,"
-                                                                    "gaborcnn=GaborCNN, gabormpcnn=GaborMPCNN,"
-                                                                    "cnn5mixp=CNN5MixP, cnn5maxp=CNN5MaxP")
+                                                                    "gaborcnn=GaborCNN, gaborcnnmaxp=GaborCNNMaxP,"
+                                                                    "cnn5mixp=CNN5MixP, cnn5maxp=CNN5MaxP,"
+                                                                    "gaborcnnmixp=GaborCNNMixP")
 
     return parser.parse_args()

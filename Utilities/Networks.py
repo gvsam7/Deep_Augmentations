@@ -7,7 +7,8 @@ from models.VGG import VGG11, VGG13, VGG16, VGG19
 from models.BagNet import BagnetCustom32, BagnetCustom96Thin
 from Utilities.Identity import Identity
 from models.GaborCNN import GaborCNN
-from models.GaborMPCNN import GaborMPCNN
+from models.GaborMPCNN import GaborCNNMaxP
+from models.GaborCNNMixP import GaborCNNMixP
 from models.CNN5MixP import CNN5MixP
 from models.CNN5MaxP import CNN5MaxP
 
@@ -27,8 +28,10 @@ def networks(architecture, in_channels, num_classes, pretrained, requires_grad, 
         model = SPPCNN(in_channels, num_classes)
     elif architecture == 'gaborcnn':
         model = GaborCNN(in_channels, num_classes)
-    elif architecture == 'gabormpcnn':
-        model = GaborMPCNN(in_channels, num_classes)
+    elif architecture == 'gaborcnnmaxp':
+        model = GaborCNNMaxP(in_channels, num_classes)
+    elif architecture == 'gaborcnnmixp':
+        model = GaborCNNMixP(in_channels, num_classes)
     elif architecture == 'cnn5mixp':
         model = CNN5MixP(in_channels, num_classes)
     elif architecture == 'cnn5maxp':
