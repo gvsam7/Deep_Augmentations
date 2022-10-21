@@ -30,6 +30,6 @@ def arguments():
                                                                     "sppcnn=SSPCNN, BagnetCustom32, BagnetCustom96Thin,"
                                                                     "gaborcnn=GaborCNN, gaborcnnmaxp=GaborCNNMaxP,"
                                                                     "cnn5mixp=CNN5MixP, cnn5maxp=CNN5MaxP,"
-                                                                    "gaborcnnmixp=GaborCNNMixP")
+                                                                    "gaborcnnmixp=GaborCNNMixP, dilgabcnn = DilGaborCNN")
 
     return parser.parse_args()

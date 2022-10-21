@@ -11,6 +11,7 @@ from models.GaborMPCNN import GaborCNNMaxP
 from models.GaborCNNMixP import GaborCNNMixP
 from models.CNN5MixP import CNN5MixP
 from models.CNN5MaxP import CNN5MaxP
+from models.DilGabCNN import DilGaborCNN
 
 
 def networks(architecture, in_channels, num_classes, pretrained, requires_grad, global_pooling):
@@ -32,6 +33,8 @@ def networks(architecture, in_channels, num_classes, pretrained, requires_grad, 
         model = GaborCNNMaxP(in_channels, num_classes)
     elif architecture == 'gaborcnnmixp':
         model = GaborCNNMixP(in_channels, num_classes)
+    elif architecture == 'dilgabcnn':
+        model = DilGaborCNN((in_channels, num_classes))
     elif architecture == 'cnn5mixp':
         model = CNN5MixP(in_channels, num_classes)
     elif architecture == 'cnn5maxp':
