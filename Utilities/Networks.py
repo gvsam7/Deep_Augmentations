@@ -38,7 +38,7 @@ def networks(architecture, in_channels, num_classes, pretrained, requires_grad, 
         model = GaborCNNMixP(in_channels, num_classes)
     elif architecture == 'dilgabcnn':
         model = DilGaborCNN(in_channels, num_classes)
-    elif architecture == 'acdilgabor':
+    elif architecture == 'acdilgabcnn':
         model = ACDilGaborCNN(in_channels, num_classes)
     elif architecture == 'cnn5mixp':
         model = CNN5MixP(in_channels, num_classes)

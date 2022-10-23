@@ -31,6 +31,6 @@ def arguments():
                                                                     "gaborcnn=GaborCNN, gaborcnnmaxp=GaborCNNMaxP,"
                                                                     "cnn5mixp=CNN5MixP, cnn5maxp=CNN5MaxP,"
                                                                     "gaborcnnmixp=GaborCNNMixP, dilgabcnn = DilGaborCNN,"
-                                                               "acdilgabor = ACDilGaborCNN")
+                                                               "acdilgabcnn = ACDilGaborCNN")
 
     return parser.parse_args()
