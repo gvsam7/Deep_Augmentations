@@ -1,5 +1,7 @@
 import torchvision
 from torch import nn
+
+import models.ACDilGabCNN
 from models.ResNet import ResNet18, ResNet50, ResNet101, ResNet152
 from models.CNN import CNN4, CNN5, OldCNN3, OldCNN4, OldCNN5, CNN2, CAMCNN2, SPPCNN
 from models.AlexNet import AlexNet
@@ -12,6 +14,7 @@ from models.GaborCNNMixP import GaborCNNMixP
 from models.CNN5MixP import CNN5MixP
 from models.CNN5MaxP import CNN5MaxP
 from models.DilGabCNN import DilGaborCNN
+from models.ACDilGabCNN import ACDilGaborCNN
 
 
 def networks(architecture, in_channels, num_classes, pretrained, requires_grad, global_pooling):
@@ -35,6 +38,8 @@ def networks(architecture, in_channels, num_classes, pretrained, requires_grad, 
         model = GaborCNNMixP(in_channels, num_classes)
     elif architecture == 'dilgabcnn':
         model = DilGaborCNN(in_channels, num_classes)
+    elif architecture == 'acdilgabor':
+        model = ACDilGaborCNN(in_channels, num_classes)
     elif architecture == 'cnn5mixp':
         model = CNN5MixP(in_channels, num_classes)
     elif architecture == 'cnn5maxp':
