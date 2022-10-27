@@ -332,7 +332,7 @@ def main():
     incorrect_examples.sort(reverse=True, key=lambda x: torch.max(x[2], dim=0).values)
 
     n_images = 48
-    if args.dataset == 'mixed':
+    if args.dataset == 'mixed' or args.dataset == 'bw' or args.dataset == 'sobel' or args.dataset == 'edge':
         classes = ['Agriculture', 'Barren_Land', 'Brick_Kilns', 'Forest_Orchard', 'Industry', 'Roads', 'Urban',
                    'Urban_Green_Space', 'Water']
     else:
