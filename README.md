@@ -28,7 +28,8 @@ validation: 20%), and test: 20% data.
 
 ## Google Colab
 - CNN5 Classification Activation Map (CAM)[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1jICBINwqq2AC9N5vtme7UfkJHTxK8yIR)
-- GaborCNN Classification Activation Map (CAM)[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1QX8Egvzb4NTzcDK9qPkiMeq8p9eEc6sr)
+- Gabor Mix Pool CNN Classification Activation Map (CAM)[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1QX8Egvzb4NTzcDK9qPkiMeq8p9eEc6sr)
+- Dilated Gabor Mix Pool CNN Classification Activation Map (CAM)[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1yfBp_VobZVvm-leq-Ufa4_3KdBl6kNT0)
 
 ## Papers
 - [Improved Regularization of Convolutional Neural Networks with Cutout](https://arxiv.org/abs/1708.04552)
