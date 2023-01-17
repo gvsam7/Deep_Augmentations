@@ -26,7 +26,7 @@ validation: 20%), and test: 20% data.
 
 *Data augmentations:* Geometric Transformations, Cutout, Mixup, and CutMix, Pooling (Global Pool, Mix Pool, Gated Mix Pool).
 
-##Demo
+## Demo
 ![](https://github.com/gvsam7/Deep_Augmentations/blob/main/Images/Demo.gif)
 
 ## Google Colab
