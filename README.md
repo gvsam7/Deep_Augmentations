@@ -26,6 +26,9 @@ validation: 20%), and test: 20% data.
 
 *Data augmentations:* Geometric Transformations, Cutout, Mixup, and CutMix, Pooling (Global Pool, Mix Pool, Gated Mix Pool).
 
+##Demo
+![](https://github.com/gvsam7/Deep_Augmentations/blob/main/Images/Demo.gif)
+
 ## Google Colab
 - CNN5 Classification Activation Map (CAM)[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1jICBINwqq2AC9N5vtme7UfkJHTxK8yIR)
 - Gabor Mix Pool CNN Classification Activation Map (CAM)[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1QX8Egvzb4NTzcDK9qPkiMeq8p9eEc6sr)
