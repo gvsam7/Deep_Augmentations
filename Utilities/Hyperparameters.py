@@ -25,6 +25,8 @@ def arguments():
                                                                     "camcnn2=CAMCNN2, oldcnn4=OldCNN4, oldcnn5=OldCNN5, vgg16=VGG16,"
                                                                     "tlvgg16=pretrain VGG16, vgg19=VGG19, alexnet=AlexNet"
                                                                     "resnet18=ResNet18, tlresnet18=pretrain ResNet18,"
+                                                                    "dilresnet18=DilResNet18, gabresnet18=GabResNet18,"
+                                                                    "dilgabresnet18=DilGabResNet18"
                                                                     "resnet50=ResNet50, resnet101=ResNet101,"
                                                                     "resnet152=ResNet=152, tlalexnet=pretrain AlexNet,"
                                                                     "sppcnn=SSPCNN, BagnetCustom32, BagnetCustom96Thin,"
