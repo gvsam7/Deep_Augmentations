@@ -8,6 +8,7 @@ from models.ResNet18 import ResNet18
 from models.DilResNet18 import DilResNet18
 from models.GabResNet18 import GabResNet18
 from models.DilGabResNet18 import DilGabResNet18
+from models.MPDilGabResNet18 import MPDilGabResNet18
 from models.CNN import CNN4, CNN5, OldCNN3, OldCNN4, OldCNN5, CNN2, CAMCNN2, SPPCNN
 from models.AlexNet import AlexNet
 from models.VGG import VGG11, VGG13, VGG16, VGG19
@@ -135,6 +136,8 @@ def networks(architecture, in_channels, num_classes, pretrained, requires_grad, 
         model = GabResNet18(in_channels, num_classes)
     elif architecture == 'dilgabresnet18':
         model = DilGabResNet18(in_channels, num_classes)
+    elif architecture == 'mpdilgabresnet18':
+        model = MPDilGabResNet18(in_channels, num_classes)
     elif architecture == 'tlresnet18':
         model = torchvision.models.resnet18(pretrained)
         if pretrained == 'True':
