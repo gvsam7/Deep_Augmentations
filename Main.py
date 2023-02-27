@@ -136,6 +136,9 @@ def main():
     elif args.dataset == 'resisc45':
         dataset = ImageFolder("resisc45")
         in_channels = 3
+    elif args.dataset == 'eurosat':
+        dataset = ImageFolder("eurosat")
+        in_channels = 3
     else:
         dataset = ImageFolder("Training_Data_2018_2014")
         in_channels = 3
