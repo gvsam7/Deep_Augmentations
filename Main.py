@@ -342,6 +342,7 @@ def main():
         classes = ['Agriculture', 'Barren_Land', 'Brick_Kilns', 'Forest_Orchard', 'Industry', 'Roads', 'Urban',
                    'Urban_Green_Space', 'Water']
     elif args.dataset == 'resisc45':
+        # classes = os.lisdir(resisc45)
         classes = ['airplane', 'airport', 'baseball_diamond', 'basketball_court', 'beach', 'bridge', 'chaparral',
                    'church', 'circular_farmland', 'cloud', 'commercial_area', 'dense_residential', 'desert', 'forest',
                    'freeway', 'golf_course', 'ground_track_field', 'harbor', 'industrial_area', 'intersection',
@@ -349,6 +350,10 @@ def main():
                    'palace', 'parking_lot', 'railway', 'railway_station', 'rectangular_farmland', 'river', 'roundabout',
                    'runway', 'sea_ice', 'ship', 'snow_berg', 'sparse_residential', 'stadium', 'storage_tank',
                    'tennis_court', 'terrace', 'thermal_power_station', 'wetland']
+    elif args.dataset == 'eurosat':
+        # classes = os.listdir(eurosat)
+        classes = ['Annual_Crop', 'Forest', 'Herbaceous_Vegetation', 'Highway', 'Industrial', 'Pasture',
+                   'Permanent_Crop', 'Residential', 'River', 'Sea_Lake']
     else:
         classes = ['Agriculture', 'Barren_Land', 'Brick_Kilns', 'Forest_Orchard', 'Industry', 'Urban',
                    'Urban_Green_Space', 'Water']
