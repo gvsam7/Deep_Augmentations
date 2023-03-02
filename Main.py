@@ -48,6 +48,7 @@ from sklearn.metrics import precision_recall_fscore_support as score
 from sklearn.metrics import accuracy_score
 import wandb
 import sys
+import os
 
 
 def step(data, targets, model, optimizer, criterion, train):
@@ -132,6 +133,14 @@ def main():
     elif args.dataset == 'bwsobel_dry':
         traindataset = ImageFolder("BWSobelData_DrySeason")
         testdataset = ImageFolder("Data_WetSeason")
+        in_channels = 3
+    elif args.dataset == 'realproduct':
+        traindataset = ImageFolder("Real_World")
+        testdataset = ImageFolder("Product")
+        in_channels = 3
+    elif args.dataset == 'productreal':
+        traindataset = ImageFolder("Product")
+        testdataset = ImageFolder("Real_World")
         in_channels = 3
     elif args.dataset == 'resisc45':
         dataset = ImageFolder("resisc45")
@@ -354,6 +363,8 @@ def main():
         # classes = os.listdir(eurosat)
         classes = ['Annual_Crop', 'Forest', 'Herbaceous_Vegetation', 'Highway', 'Industrial', 'Pasture',
                    'Permanent_Crop', 'Residential', 'River', 'Sea_Lake']
+    elif args.dataset == 'realproduct' or args.dataset == 'productreal':
+        classes = os.listdir(testdataset)
     else:
         classes = ['Agriculture', 'Barren_Land', 'Brick_Kilns', 'Forest_Orchard', 'Industry', 'Urban',
                    'Urban_Green_Space', 'Water']
