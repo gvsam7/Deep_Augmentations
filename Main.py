@@ -364,7 +364,7 @@ def main():
         classes = ['Annual_Crop', 'Forest', 'Herbaceous_Vegetation', 'Highway', 'Industrial', 'Pasture',
                    'Permanent_Crop', 'Residential', 'River', 'Sea_Lake']
     elif args.dataset == 'realproduct' or args.dataset == 'productreal':
-        classes = os.listdir("real")
+        classes = os.listdir("Product")
     else:
         classes = ['Agriculture', 'Barren_Land', 'Brick_Kilns', 'Forest_Orchard', 'Industry', 'Urban',
                    'Urban_Green_Space', 'Water']
