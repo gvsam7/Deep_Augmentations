@@ -155,7 +155,7 @@ def main():
 
     if args.dataset == 'wet' or args.dataset == 'dry' or args.dataset == 'bw_wet' or args.dataset == 'edge_wet' or \
             args.dataset == 'sobel_wet' or args.dataset == 'bw_dry' or args.dataset == 'edge_dry' or \
-            args.dataset == 'sobel_dry':
+            args.dataset == 'sobel_dry' or args.dataset == 'realproduct' or args.dataset == 'productreal':
         labels = traindataset.classes
         num_classes = len(labels)
         y = traindataset.targets
