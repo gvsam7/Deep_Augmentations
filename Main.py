@@ -158,6 +158,14 @@ def main():
         traindataset = ImageFolder("Clipart")
         testdataset = ImageFolder("Real_World")
         in_channels = 3
+    elif args.dataset == 'productclipart':
+        traindataset = ImageFolder("Product")
+        testdataset = ImageFolder("Clipart")
+        in_channels = 3
+    elif args.dataset == 'clipartproduct':
+        traindataset = ImageFolder("Clipart")
+        testdataset = ImageFolder("Product")
+        in_channels = 3
     elif args.dataset == 'resisc45':
         dataset = ImageFolder("resisc45")
         in_channels = 3
@@ -173,7 +181,7 @@ def main():
             args.dataset == 'sobel_wet' or args.dataset == 'bw_dry' or args.dataset == 'edge_dry' or \
             args.dataset == 'sobel_dry' or args.dataset == 'realproduct' or args.dataset == 'productreal'\
             or args.dataset == 'realart' or args.dataset == 'artreal' or args.dataset == 'realclipart' \
-            or args.dataset == 'clipartreal':
+            or args.dataset == 'clipartreal' or args.dataset == 'productclipart' or args.dataset == 'clipartproduct':
         labels = traindataset.classes
         num_classes = len(labels)
         y = traindataset.targets
@@ -386,6 +394,8 @@ def main():
     elif args.dataset == 'realart' or args.dataset == 'artreal':
         classes = os.listdir("Art")
     elif args.dataset == 'realclipart' or args.dataset == 'clipartreal':
+        classes = os.listdir('Clipart')
+    elif args.dataset == 'productclipart' or args.dataset == 'clipartproduct':
         classes = os.listdir('Clipart')
     else:
         classes = ['Agriculture', 'Barren_Land', 'Brick_Kilns', 'Forest_Orchard', 'Industry', 'Urban',
